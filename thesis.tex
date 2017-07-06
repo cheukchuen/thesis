@@ -1,0 +1,143 @@
+\documentclass[12pt,letterpaper]{report}
+\usepackage[margin=1in,includeheadfoot]{geometry}
+\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\usepackage[figure,table]{hypcap}
+\usepackage[nottoc]{tocbibind}
+\usepackage[titletoc]{appendix}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+
+\usepackage[backend=biber]{biblatex}
+\addbibresource{references.bib}
+
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{datetime}
+\newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
+\newdateformat{yeardate}{\THEYEAR}
+
+\usepackage{sectsty}
+\chapterfont{\vspace*{-14.88mm}\large\sc\centering}
+\chaptertitlefont{\centering}
+\subsubsectionfont{\centering}
+
+%----------------
+% Title Page
+%----------------
+\begin{document}
+
+\begin{titlepage}
+	\begin{center}
+		\vspace*{1in}
+		
+		\Huge
+		Thesis Title
+		
+		\vfill
+		
+		\large
+		Cheuk Chuen Siow\\
+		School of Computer Science\\
+		McGill University, Montréal
+		
+		\vfill
+		
+		\monthyeardate\today
+		
+		\vfill
+		
+		A thesis submitted to McGill University in partial fulfillment of the requirements for the degree of Master of Science in Computer Science
+		
+		\vfill
+		
+		\textcopyright{} Cheuk Chuen Siow \yeardate\today
+		
+		\vspace*{1in}
+	\end{center}
+\end{titlepage}
+
+%----------------
+% Front Matter
+%----------------
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{2}
+
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+
+
+\clearpage
+
+\chapter*{Abrégé}
+\addcontentsline{toc}{chapter}{Abrégé}
+
+
+
+\clearpage
+
+\chapter*{Acknowledgements}
+\addcontentsline{toc}{chapter}{Acknowledgements}
+
+
+
+\clearpage
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+
+
+% Content
+\renewcommand{\contentsname}{Table of Contents}
+\tableofcontents
+\listoffigures
+\listoftables
+
+\clearpage
+\pagenumbering{arabic}
+
+%----------------
+% Main Body
+%----------------
+\chapter{Introduction}
+\input{chapters/1-introduction}
+
+\chapter{Methods}
+\input{chapters/2-methods}
+
+\chapter{Results}
+\input{chapters/3-results}
+
+\chapter{Discussion}
+\input{chapters/4-discussion}
+
+\chapter{Conclusion}
+\input{chapters/5-conclusion}
+
+%----------------
+% End Matter
+%----------------
+\begin{appendices}
+
+\chapter{Appendix Title}
+\input{chapters/A-appendix}
+
+\chapter{Appendix Title}
+\input{chapters/B-appendix}
+
+\end{appendices}
+
+\renewcommand\bibname{References}
+\printbibliography[heading=bibintoc]
+
+\end{document}
