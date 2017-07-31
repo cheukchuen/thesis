@@ -9,6 +9,9 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+\fancyhf{}
+\rhead{\textit{\leftmark}}
+\cfoot{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 
 \usepackage[backend=biber]{biblatex}
@@ -112,27 +115,30 @@
 \chapter{Introduction}
 \input{chapters/1-introduction}
 
+\chapter{Background}
+\input{chapters/2-background}
+
 \chapter{Methods}
-\input{chapters/2-methods}
+\input{chapters/3-methods}
 
 \chapter{Results}
-\input{chapters/3-results}
+\input{chapters/4-results}
 
 \chapter{Discussion}
-\input{chapters/4-discussion}
+\input{chapters/5-discussion}
 
 \chapter{Conclusion}
-\input{chapters/5-conclusion}
+\input{chapters/6-conclusion}
 
 %----------------
 % End Matter
 %----------------
 \begin{appendices}
 
-\chapter{Appendix Title}
+\chapter{Complete Authentication Model}
 \input{chapters/A-appendix}
 
-\chapter{Appendix Title}
+\chapter{Complete Online Payment Model}
 \input{chapters/B-appendix}
 
 \end{appendices}
