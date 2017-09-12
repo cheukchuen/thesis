@@ -1,19 +1,24 @@
-\todo[inline]{How about as a title: Adding Support for Use Case Maps to CORE}
+In this chapter, we describe the integration of UCM as a new modeling language into existing modeling languages of TouchCORE. The project uses Java SE Development Kit 8 as the implementation language and Eclipse Modeling Framework (EMF) \cite{steinberg2008emf} as the modeling facility for building TouchCORE. To support a new language, we need to specify its metamodel through EMF. We describe the definition of UCM metamodel in section \ref{sec:3.1}. We also present the weaving algorithm for UCM in the Context of CORE in section \ref{sec:3.2}.
 
-\todo[inline]{Then talk about (or remind the reader about) motivation, then detail that there needs to be support in the metamodel, the concrete syntax, and the weaving algorithm. It could also be possible to not talk about the concrete syntax here, but in the next chapter (the implementation). This chapter really describes the conceptual work of adding UCMS to CORE.}
+\section{UCM Metamodel} \label{sec:3.1}
 
-\section{UCM Metamodel}
+%\begin{figure}[h]
+%	\centering
+%	\includegraphics[scale=0.5]{graph_a}
+%	\caption{UCM metamodel: }
+%	\label{fig:3.1}
+%\end{figure}
 
-\subsection{Abstract Syntax}
+We follow the URN specification \cite{itu2012151} closely in designing the UCM metamodel. 
 
-\subsection{Concrete Syntax}
+Figure \ref{fig:3.1} 
 
-\todo[inline]{Maybe move this to the next chapter... To discuss}
+The basic structure of a UCM 
 
-\section{Weaver}
+\section{Weaver} \label{sec:3.2}
 
 \todo[inline]{Again, maybe we need a short intro here. I assume there is also a common algorithm to extensions and reuses, or are they completely separate?}
 
-\subsection{Model Extension}
+\subsection{Responsibility Mapping}
 
-\subsection{Model Reuse}
+\subsection{Connecting Point Mapping}
