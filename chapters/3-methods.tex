@@ -1,4 +1,7 @@
-In this chapter, we describe the integration of UCM as a new modeling language into existing modeling languages of TouchCORE. The project uses Java SE Development Kit 8 as the implementation language and Eclipse Modeling Framework (EMF) \cite{steinberg2008emf} as the modeling facility for building TouchCORE. To support a new language, we need to specify its metamodel through EMF. We describe the definition of UCM metamodel in section \ref{sec:3.1}. We also present the weaving algorithm for UCM in the Context of CORE in section \ref{sec:3.2}.
+In this chapter, we describe the integration of UCM as a new modeling language into existing modeling languages of TouchCORE.
+\todo[inline]{Yes that's it. Don't talk about implementation. The integration you are describing here, i.e., metamodel and weaver, constitute the conceptual integration. Here you explain why you are doing things this way, why we are mapping connection points, for example, why we need  slightly different weavings for extend / reuse. Talk about TouchCORE / EMF later on in the following chapter. }
+
+The project uses Java SE Development Kit 8 as the implementation language and Eclipse Modeling Framework (EMF) \cite{steinberg2008emf} as the modeling facility for building TouchCORE. To support a new language, we need to specify its metamodel through EMF. We describe the definition of UCM metamodel in section \ref{sec:3.1}. We also present the weaving algorithm for UCM in the Context of CORE in section \ref{sec:3.2}.
 
 \section{UCM Metamodel} \label{sec:3.1}
 
@@ -9,16 +12,22 @@ In this chapter, we describe the integration of UCM as a new modeling language i
 %	\label{fig:3.1}
 %\end{figure}
 
+\todo[inline]{Here you can describe your UCM metamodel, i.e., how and why it differs from the original shown in chapter 2, and how you subclassed the important CORE metamodel classes to integrate your UCMs with CORE.}
+
 We follow the URN specification \cite{itu2012151} closely in designing the UCM metamodel. 
 
 Figure \ref{fig:3.1} 
 
 The basic structure of a UCM 
 
-\section{Weaver} \label{sec:3.2}
-
-\todo[inline]{Again, maybe we need a short intro here. I assume there is also a common algorithm to extensions and reuses, or are they completely separate?}
+\todo[inline]{Explain that we need to specify composition specifications, i.e., mappings.}
 
 \subsection{Responsibility Mapping}
 
 \subsection{Connecting Point Mapping}
+
+
+\section{Weaver} \label{sec:3.2}
+
+\todo[inline]{Again, maybe we need a short intro here to explain why weaving is needed. I assume there is also a common algorithm to extensions and reuses, or are they completely separate? Then describe the algorithm }
+
