@@ -7,6 +7,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{todonotes}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -22,16 +24,18 @@
 \graphicspath{ {images/} }
 
 \usepackage{setspace}
-\onehalfspacing
+\doublespacing
 
 \usepackage{datetime}
 \newdateformat{monthyeardate}{\monthname[\THEMONTH] \THEYEAR}
 \newdateformat{yeardate}{\THEYEAR}
 
 \usepackage{sectsty}
-\chapterfont{\vspace*{-14.88mm}\large\sc\centering}
+\chapterfont{\vspace*{-17.5mm}\large\sc\centering}
 \chaptertitlefont{\centering}
 \subsubsectionfont{\centering}
+
+\newcommand*{\cls}{\fontfamily{cmss}\selectfont}
 
 %----------------
 % Title Page
@@ -105,7 +109,8 @@
 \renewcommand{\contentsname}{Table of Contents}
 \tableofcontents
 \listoffigures
-\listoftables
+%\listoftables
+\listofalgorithms
 
 \clearpage
 \pagenumbering{arabic}
@@ -120,7 +125,7 @@
 \input{chapters/2-background}
 
 \chapter{Adding Support for UCM to CORE} \label{ch:3}
-\input{chapters/3-methods}
+\input{chapters/3-support}
 
 \chapter{Validation} \label{ch:4}
 \input{chapters/4-validation}
@@ -136,8 +141,8 @@
 \chapter{Complete Metamodels}
 \input{chapters/A-appendix}
 
-\chapter{Complete Case Study Models}
-\input{chapters/B-appendix}
+%\chapter{Complete Case Study Models}
+%\input{chapters/B-appendix}
 
 \end{appendices}
 
