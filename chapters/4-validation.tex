@@ -41,7 +41,31 @@ Elements with extra features can be accessed by tap-and-hold an element (Figure~
 
 \subsubsection{Model Extension}
 
+\begin{figure}
+	\centering
+	\subfloat[Model A - parent UCM]{\label{fig:4.4a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4a.png}} \\
+	\subfloat[Model B - child UCM]{\label{fig:4.4b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4b.png}} \\
+	\subfloat[Woven Model B\_A]{\label{fig:4.4c}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4c.png}}
+	\caption{Example model extension}
+	\label{fig:4.4}
+\end{figure}
+
+Figure~\ref{fig:4.4} illustrates the usage of UCM model extension within a concern. Given a concern with 2 features in a hierarchy, the model of a child feature (Model B) extends the model of a parent feature (Model A). Composition specifications are specified in Model B, where an element of Model A is mapped to an element of Model B. Multiple mappings can be set per extension as needed and the available types of mapping are defined in the metamodel. The result of weaving Model B to Model A is depicted in Figure~\ref{fig:4.4c}. Based on the mappings set in Model B, the predecessors and successors of the mapped responsibility from Model B are introduced as adjoined path nodes of the mapped responsibility from Model A, and the mapped responsibility from Model A is being replaced with the mapped responsibility from Model B.
+
+The idea of isolating features as individual models supports the use of advanced separation of concerns---each feature encapsulates its realization model. Features of a concern are nested in a hierarchical order, and the connection between features can be seen as parent-child relationship. Extension of a model depends on this relationship to ensure that models are woven in the correct order. Only the selected features of a concern are woven as a whole, providing only the absolute necessary details to fully describe the different use cases.
+
 \subsubsection{Model Reuse}
+
+\begin{figure}
+	\centering
+	\subfloat[Model C - reuse Concern A with selected features <A,B>]{\label{fig:4.5a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5a.png}} \\
+	\subfloat[Model C - establish connecting point mapping through node connection]{\label{fig:4.5b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5b.png}} \\
+	\subfloat[Woven Model C\_A<A,B>]{\label{fig:4.5c}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5c.png}}
+	\caption{Example model reuse}
+	\label{fig:4.5}
+\end{figure}
+
+Figure~\ref{fig:4.5} illustrates the usage of UCM model reuse across concerns. Given that Model C of a concern reuses Concern A, the configuration for the set of features of Concern A will be displayed. Here, we chose to use features A and B, thus woven Model B\_A (see Figure~\ref{fig:4.4c}) is generated and represented as a static Stub A (appears automatically in canvas after successful reuse). Mappings for connecting points of Stub A can be established by linking a path node to/from Stub A. As shown in Figures~\ref{fig:4.5a} and~\ref{fig:4.5b}, a node connection was created from Stub A to an end point, and a list of end points from woven Model B\_A will be displayed for the user to set which end point of Model B\_A corresponds to which outgoing connection of Stub A in Model C. We label the incoming connection of a stub as \verb|<Model_2>.Stub[<Model_1>].In[Predecessor]|, and the outgoing connection as \verb|<Model_2>.Stub[<Model_1>].Out[Successor]|. The result of weaving Model C to Model B\_A is depicted in Figure~\ref{fig:4.5c}.
 
 \section{Case Studies} \label{sec:4.2}
 
