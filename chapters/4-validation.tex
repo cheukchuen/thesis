@@ -46,7 +46,7 @@ Elements with extra features can be accessed by tap-and-hold an element (Figure~
 	\subfloat[Model A - parent UCM]{\label{fig:4.4a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4a.png}} \\
 	\subfloat[Model B - child UCM]{\label{fig:4.4b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4b.png}} \\
 	\subfloat[Woven Model B\_A]{\label{fig:4.4c}\includegraphics[clip,width=0.7\columnwidth]{fig_4_4c.png}}
-	\caption{Example model extension}
+	\caption{Schematic representation of model extension}
 	\label{fig:4.4}
 \end{figure}
 
@@ -61,7 +61,7 @@ The idea of isolating features as individual models supports the use of advanced
 	\subfloat[Model C - reuse Concern A with selected features <A,B>]{\label{fig:4.5a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5a.png}} \\
 	\subfloat[Model C - establish connecting point mapping through node connection]{\label{fig:4.5b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5b.png}} \\
 	\subfloat[Woven Model C\_A<A,B>]{\label{fig:4.5c}\includegraphics[clip,width=0.7\columnwidth]{fig_4_5c.png}}
-	\caption{Example model reuse}
+	\caption{Schematic representation of model reuse}
 	\label{fig:4.5}
 \end{figure}
 
@@ -126,5 +126,30 @@ The purpose of these case studies is to demonstrate the application of model reu
 
 \section{Workflow Patterns} \label{sec:4.3}
 
-%\cite{van2003workflow}
-%\cite{mussbacher2007evolving}
+This last section demonstrates the use of concern-oriented UCMs to implement some of the workflow patterns described by van der Aalst et al.~\cite{van2003workflow}. We chose to cover two of the state-based patterns---\emph{Deferred Choice} and \emph{Milestone}---as they present the appropriate level of complexity, given that some of the workflow patterns are primitive and already supported by the standard UCM notations, as well as the constraints imposed by our partial implementation of UCM notations in TouchCORE.
+
+\subsection{Deferred Choice}
+
+The deferred choice pattern allows the moment of choice to be suspended as late as necessary---process can only continue based on external factors. In essence, all branches represent possible future courses of execution. Only once the decision has been made to proceed with a particular branch, execution for the other branches come to a halt. 
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=1.3]{fig_4_11.png}
+	\caption{Deferred choice pattern}
+	\label{fig:4.11}
+\end{figure}
+
+Typical implementation of deferred choice is using an AND-fork to enable all parallel branches. After one of the branches has started processing, all other branches are canceled. Since the UCM notation does not have the ability to signal for cancellation of other branches, an alternative strategy is the use of XOR-split. Figure~\ref{fig:4.11} illustrates the OR-fork implementation for the deferred choice pattern; the \emph{Trigger} is responsible for activating the proper branch, by setting $option_1$ to $true$ and $option_2$ to $false$ or vice versa. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reuse is in the milestone pattern.
+
+\subsection{Milestone}
+
+The milestone pattern supports the conditional execution of a task only if a parallel process is in a given state, i.e. an activity can only be enabled if a certain milestone has been reached and has not expired yet. Different strategies exist for the implementation of the milestone pattern, and one form uses a deferred choice in the workflow. Deferred choice offers two subsequent activities and is modeled with an OR-fork within the reused Deferred Choice concern. The path to one activity is enabled only after reaching a milestone, after which the path merges prior to the deferred choice construct and the same activity can be executed repeatedly, given that the current state is still in the milestone. On the other hand, if the current state leaves the milestone, then the path to the first activity is disabled by the OR-fork, leaving only the path to the second activity.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1.3]{fig_4_12.png}
+	\caption{Milestone pattern (enrolment example)}
+	\label{fig:4.12}
+\end{figure}
+
+Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly different. We took an example of student enrolment, applying the milestone pattern (deferred choice implementation), as shown in Figure~\ref{fig:4.12}. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} ($option_1$) can only be activated when the token on the other parallel path reaches \emph{Open enrolment} but before reaching \emph{Close off}. All other instances would result in inaccessible path $option_1$, leading to the only exit path available that is \emph{End of enrolment} ($option_2$).
