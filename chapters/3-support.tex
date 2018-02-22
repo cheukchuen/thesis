@@ -51,7 +51,7 @@ As explained in Section~\ref{sec:2.1}, the role of the weaver is to facilitate m
 
 \subsection{Weaving Algorithm}
 
-The algorithms presented here are specific for single weaving, meaning that a composition is performed from one model ($UCM_1$) to another model ($UCM_2$). This action can be chained together with other compositions, even with the hierarchical structure of the concern features. Here, we specify the subscript $_1$ for the model elements of a UCM the weaver composes from, and the subscript $_2$ for the model elements of a UCM the weaver composes to. $UCM_1$ and $UCM_2$ are merged prior to weaving, retaining all the path nodes and node connections from both models. Then the weaver iterates through the available composition specifications and executes the algorithms based on the specific type of mapping. The output of the woven model results in the amalgamation of UCMs based on the composition specification defined by the designer of the models, as well as the selected features of the concern by the user.
+The algorithms presented here are specific for single weaving, meaning that a composition is performed from one model (\emph{UCM}\textsubscript{1}) to another model (\emph{UCM}\textsubscript{2}). This action can be chained together with other compositions, even with the hierarchical structure of the concern features. Here, we specify the subscript \textsubscript{1} for the model elements of a UCM the weaver composes from, and the subscript \textsubscript{2} for the model elements of a UCM the weaver composes to. \emph{UCM}\textsubscript{1} and \emph{UCM}\textsubscript{2} are merged prior to weaving, retaining all the path nodes and node connections from both models. Then the weaver iterates through the available composition specifications and executes the algorithms based on the specific type of mapping. The output of the woven model results in the amalgamation of UCMs based on the composition specification defined by the designer of the models, as well as the selected features of the concern by the user.
 
 \subsubsection{Responsibility Mapping} \label{sec:3.2.1.1}
 
@@ -59,43 +59,43 @@ The algorithms presented here are specific for single weaving, meaning that a co
     \caption{Weaving Algorithm: Responsibility Mapping}
     \label{alg:1}
 	\begin{algorithmic}[1]
-	    \Function{WeaveResponsibilityMapping}{$ucm, composition$}
-			\State $node_1\gets$ get first node of composition mapping ($from$)
-			\State $node_2\gets$ get second node of composition mapping ($to$)
-			\State mark $node_2$ as visited
+	    \Function{WeaveResponsibilityMapping}{\emph{ucm}, \emph{composition}}
+			\State \emph{node}\textsubscript{1} $\gets$ get first node of \emph{composition} mapping (\emph{from})
+			\State \emph{node}\textsubscript{2} $\gets$ get second node of \emph{composition} mapping (\emph{to})
+			\State mark \emph{node}\textsubscript{2} as visited
 			\State indicate start point has not been encountered
 			\State indicate end point has not been encountered
-			\State call \Call{TraverseToSource}{$ucm, node_2, node_1$}
-			\State call \Call{TraverseToTarget}{$ucm, node_2, node_1$}
-			\State remove $node_1$ from $ucm$
+			\State call \Call{TraverseToSource}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\State call \Call{TraverseToTarget}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\State remove \emph{node}\textsubscript{1} from \emph{ucm}
 		\EndFunction
 		
-		\Function{TraverseToSource}{$ucm, node_2, node_1$}
-			\For{each predecessor of $node_2$}
-				\State $sourceNode\gets$ get source node of predecessor
+		\Function{TraverseToSource}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\For{each predecessor of \emph{node}\textsubscript{2}}
+				\State \emph{sourceNode} $\gets$ get source node of predecessor
 				\If{linkage exists from previous mapping} \label{alg:1.1}
-					\State set the source of $node_2$'s connection to $node_1$'s predecessor
+					\State set the source of \emph{node}\textsubscript{2}'s connection to \emph{node}\textsubscript{1}'s predecessor
 					\State disable linkage
 					\State skip this loop
 				\EndIf \label{alg:1.2}
-				\If{$sourceNode$ is visited} \label{alg:1.3}
+				\If{\emph{sourceNode} is visited} \label{alg:1.3}
 					\State skip this loop
-				\ElsIf{$sourceNode$ is not {\cls Anything}}
-					\State mark $sourceNode$ as visited
+				\ElsIf{\emph{sourceNode} is not {\cls Anything}}
+					\State mark \emph{sourceNode} as visited
 				\EndIf \label{alg:1.4}
-				\If{$sourceNode$ is {\cls StartPoint} and start point is not encountered} \label{alg:1.5}
-					\If{visibility of $sourceNode$ is {\cls Concern}}
-						\State set the source of $node_2$'s connection to $node_1$'s predecessor
-						\State remove $sourceNode$ from $ucm$
+				\If{\emph{sourceNode} is {\cls StartPoint} and start point is not encountered} \label{alg:1.5}
+					\If{visibility of \emph{sourceNode} is {\cls Concern}}
+						\State set the source of \emph{node}\textsubscript{2}'s connection to \emph{node}\textsubscript{1}'s predecessor
+						\State remove \emph{sourceNode} from \emph{ucm}
 						\State indicate start point has been encountered
 					\EndIf \label{alg:1.6}
-				\ElsIf{$sourceNode$ is {\cls Anything}} \label{alg:1.7}
-					\State set the source of $node_2$'s connection to $node_1$'s predecessor
-					\If{$sourceNode$ does not have any predecessor}
-						\State remove $sourceNode$ from $ucm$
+				\ElsIf{\emph{sourceNode} is {\cls Anything}} \label{alg:1.7}
+					\State set the source of \emph{node}\textsubscript{2}'s connection to \emph{node}\textsubscript{1}'s predecessor
+					\If{\emph{sourceNode} does not have any predecessor}
+						\State remove \emph{sourceNode} from \emph{ucm}
 					\EndIf \label{alg:1.8}
 				\Else
-					\State recursively call \Call{TraverseToSource}{$ucm, sourceNode, node_1$} \label{alg:1.9}
+					\State recursively call \Call{TraverseToSource}{\emph{ucm}, \emph{sourceNode}, \emph{node}\textsubscript{1}} \label{alg:1.9}
 				\EndIf
 			\EndFor
 		\EndFunction
@@ -108,45 +108,45 @@ The algorithms presented here are specific for single weaving, meaning that a co
 	\begin{algorithmic}[1]
 		\algrestore{alg1}
 		
-		\Function{TraverseToTarget}{$ucm$, $node_2$, $node_1$}
-			\For{each successor of $node_2$}
-				\State $targetNode\gets$ get target node of successor
-				\If{$targetNode$ is visited} \label{alg:1.10}
+		\Function{TraverseToTarget}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\For{each successor of \emph{node}\textsubscript{2}}
+				\State \emph{targetNode} $\gets$ get target node of successor
+				\If{\emph{targetNode} is visited} \label{alg:1.10}
 					\State skip this loop
-				\ElsIf{$targetNode$ is not {\cls Anything}}
-					\State mark $targetNode$ as visited
+				\ElsIf{\emph{targetNode} is not {\cls Anything}}
+					\State mark \emph{targetNode} as visited
 				\EndIf \label{alg:1.11}
-				\If{$targetNode$ is {\cls Endpoint} and end point is not encountered} \label{alg:1.12}
-					\If{visibility of $targetNode$ is {\cls Concern}}
-						\State set the target of $node_2$'s connection to $node_1$'s successor
-						\State remove $targetNode$ from $ucm$
+				\If{\emph{targetNode} is {\cls Endpoint} and end point is not encountered} \label{alg:1.12}
+					\If{visibility of \emph{targetNode} is {\cls Concern}}
+						\State set the target of \emph{node}\textsubscript{2}'s connection to \emph{node}\textsubscript{1}'s successor
+						\State remove \emph{targetNode} from \emph{ucm}
 						\State indicate end point has been encountered
 					\EndIf \label{alg:1.13}
-				\ElsIf{$targetNode$ is {\cls Anything}} \label{alg:1.14}
-					\State set the target of $node_2$'s connection to $node_1$'s successor
-					\If{$targetNode$ does not have any successor}
-						\State remove $targetNode$ from $ucm$
+				\ElsIf{\emph{targetNode} is {\cls Anything}} \label{alg:1.14}
+					\State set the target of \emph{node}\textsubscript{2}'s connection to \emph{node}\textsubscript{1}'s successor
+					\If{\emph{targetNode} does not have any successor}
+						\State remove \emph{targetNode} from \emph{ucm}
 					\EndIf \label{alg:1.15}
-				\ElsIf{$targetNode$ exists in compositions mapping ($to$)} \label{alg:1.16}
+				\ElsIf{\emph{targetNode} exists in \emph{composition} mapping (\emph{to})} \label{alg:1.16}
 					\State copy node connection of successor
-					\State set the target of copied connection to $node_1$'s successor
-					\State add the copied connection to $ucm$
+					\State set the target of copied connection to \emph{node}\textsubscript{1}'s successor
+					\State add the copied connection to \emph{ucm}
 					\State enable linkage to next mapping \label{alg:1.17}
 				\Else
-					\State recursively call \Call{TraverseToTarget}{$ucm, targetNode, node_1$} \label{alg:1.18}
+					\State recursively call \Call{TraverseToTarget}{\emph{ucm}, \emph{targetNode}, \emph{node}\textsubscript{1}} \label{alg:1.18}
 				\EndIf
 			\EndFor
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
-Mapping with responsibilities allows for model extensions between parent and child UCMs. Composition specification can be defined by mapping from a parent UCM's responsibility to a child UCM's responsibility. Algorithm~\ref{alg:1} illustrates the procedure of weaving for responsibility mappings. The function \emph{WeaveResponsibilityMapping} initiates the process by identifying the mapped responsibilities (\emph{from} $UCM_1$ \emph{to} $UCM_2$), and traversal begins from the point of $responsibility_2$ in both directions: (i) toward predecessors until start point encountered; and (ii) toward successors until end point encountered. A UCM is represented as a directed graph, with possible cycles via {\cls OrFork}s and {\cls OrJoin}s. As such, we implemented a depth-first search approach for traversing the graph through recursion (lines~\ref{alg:1.9} and~\ref{alg:1.18}), and a mechanism to determine whether a node has been explored (lines~\ref{alg:1.3}-\ref{alg:1.4} and~\ref{alg:1.10}-\ref{alg:1.11}).
+Mapping with responsibilities allows for model extensions between parent and child UCMs. Composition specification can be defined by mapping from a parent UCM's responsibility to a child UCM's responsibility. Algorithm~\ref{alg:1} illustrates the procedure of weaving for responsibility mappings. The function \emph{WeaveResponsibilityMapping} initiates the process by identifying the mapped responsibilities (\emph{from} \emph{UCM}\textsubscript{1} \emph{to} \emph{UCM}\textsubscript{2}), and traversal begins from the point of \emph{responsibility}\textsubscript{2} in both directions: (i) toward predecessors until start point encountered; and (ii) toward successors until end point encountered. A UCM is represented as a directed graph, with possible cycles via {\cls OrFork}s and {\cls OrJoin}s. As such, we implemented a depth-first search approach for traversing the graph through recursion (lines~\ref{alg:1.9} and~\ref{alg:1.18}), and a mechanism to determine whether a node has been explored (lines~\ref{alg:1.3}-\ref{alg:1.4} and~\ref{alg:1.10}-\ref{alg:1.11}).
 
-Furthermore, we allow multiple consecutive mappings between two UCM models. The path of a UCM may consist of mapped responsibilities interspersed with other path nodes. While traversing forward, lines~\ref{alg:1.16}-\ref{alg:1.17} handle the next mapped responsibility. If exist, forward traversal stops for this specific composition and appropriate nodes are connected between $UCM_1$ and $UCM_2$. For subsequent mappings, lines~\ref{alg:1.1}-\ref{alg:1.2} handle the linkage from previous mappings, and backward traversal stops at the point of mapped responsibilities and appropriate nodes are connected between $UCM_1$ and $UCM_2$. This pattern continues until the weaver reaches end point, whereby the predecessor of $UCM_2$'s end point connects to the successor of mapped responsibility ($from$) $UCM_1$ and this end point gets deleted (lines~\ref{alg:1.12}-\ref{alg:1.13}). Same goes for backward traversal until the weaver reaches start point (lines~\ref{alg:1.5}-\ref{alg:1.6}). Lastly, mapped responsibility ($to$) $UCM_2$ retains while mapped responsibility ($from$) $UCM_1$ gets deleted for the final woven UCM model.
+Furthermore, we allow multiple consecutive mappings between two UCM models. The path of a UCM may consist of mapped responsibilities interspersed with other path nodes. While traversing forward, lines~\ref{alg:1.16}-\ref{alg:1.17} handle the next mapped responsibility. If exist, forward traversal stops for this specific composition and appropriate nodes are connected between \emph{UCM}\textsubscript{1} and \emph{UCM}\textsubscript{2}. For subsequent mappings, lines~\ref{alg:1.1}-\ref{alg:1.2} handle the linkage from previous mappings, and backward traversal stops at the point of mapped responsibilities and appropriate nodes are connected between \emph{UCM}\textsubscript{1} and \emph{UCM}\textsubscript{2}. This pattern continues until the weaver reaches end point, whereby the predecessor of \emph{UCM}\textsubscript{2}'s end point connects to the successor of mapped responsibility (\emph{from}) \emph{UCM}\textsubscript{1} and this end point gets deleted (lines~\ref{alg:1.12}-\ref{alg:1.13}). Same goes for backward traversal until the weaver reaches start point (lines~\ref{alg:1.5}-\ref{alg:1.6}). Lastly, mapped responsibility (\emph{to}) \emph{UCM}\textsubscript{2} retains while mapped responsibility (\emph{from}) \emph{UCM}\textsubscript{1} gets deleted for the final woven UCM model.
 
 UCM may have multiple start points merging to a path, or a path may branch to multiple end points. In this case, we allow a start or end point to set its visibility level. By default, connecting point is given the visibility of {\cls Concern} that signifies the start or end point is only visible when viewing a UCM model for a specific feature of a concern, but disappears after the composition process. The other option is {\cls Public} for global visibility and is used to retain the start or end point even after the composition process---the weaver would just ignore {\cls Public} connecting points and proceed to other branches. This feature is useful in defining multiple entry points, or alternative exit strategies, for a scenario.
 
-Complex scenario model composition is also possible with the help of {\cls Anything}. An anything node can represent a subset of nodes in a path and is commonly used in $UCM_2$ to capture the actual nodes that are specified in $UCM_1$. If an anything node is encountered during traversal, lines~\ref{alg:1.7}-\ref{alg:1.8} and~\ref{alg:1.14}-\ref{alg:1.15} signals the end of exploration and treat it as an end point. The difference is that the algorithm checks whether the anything node is still connected to other nodes before removal. This is necessary because an anything node has a predecessor node and a successor node, and typically surrounded by forks and joins (loop cycle). Both sides have to be traversed and dealt with before removing the anything node from the woven model.
+Complex scenario model composition is also possible with the help of {\cls Anything}. An anything node can represent a subset of nodes in a path and is commonly used in \emph{UCM}\textsubscript{2} to capture the actual nodes that are specified in \emph{UCM}\textsubscript{1}. If an anything node is encountered during traversal, lines~\ref{alg:1.7}-\ref{alg:1.8} and~\ref{alg:1.14}-\ref{alg:1.15} signals the end of exploration and treat it as an end point. The difference is that the algorithm checks whether the anything node is still connected to other nodes before removal. This is necessary because an anything node has a predecessor node and a successor node, and typically surrounded by forks and joins (loop cycle). Both sides have to be traversed and dealt with before removing the anything node from the woven model.
 
 \subsubsection{Connecting Point Mapping}
 
@@ -154,46 +154,46 @@ Complex scenario model composition is also possible with the help of {\cls Anyth
 	\caption{Weaving Algorithm: Connecting Point Mapping}
 	\label{alg:2}
 	\begin{algorithmic}[1]
-		\Function{WeaveConnectingPointMapping}{$ucm$, $composition$}
-			\State $node_1\gets$ get first node of composition mapping ($from$)
-			\State $node_2\gets$ get second node of composition mapping ($to$)
-			\If{$node_1$ is {\cls StartPoint}}
-				\If{$node_1$ is connected to a stub} \label{alg:2.1}
-					\State call \Call{ExtendingStub\_End}{$ucm, node_2, node_1$} \label{alg:2.2}
-				\ElsIf{$node_2$ is connected to a stub} \label{alg:2.3}
-					\State call \Call{ReusingStub\_Start}{$ucm, node_2, node_1$} \label{alg:2.4}
+		\Function{WeaveConnectingPointMapping}{\emph{ucm}, \emph{composition}}
+			\State \emph{node}\textsubscript{1} $\gets$ get first node of \emph{composition} mapping (\emph{from})
+			\State \emph{node}\textsubscript{2} $\gets$ get second node of \emph{composition} mapping (\emph{to})
+			\If{\emph{node}\textsubscript{1} is {\cls StartPoint}}
+				\If{\emph{node}\textsubscript{1} is connected to a stub} \label{alg:2.1}
+					\State call \Call{ExtendingStub\_End}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.2}
+				\ElsIf{\emph{node}\textsubscript{2} is connected to a stub} \label{alg:2.3}
+					\State call \Call{ReusingStub\_Start}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.4}
 				\EndIf
-			\ElsIf{$node_1$ is {\cls EndPoint}}
-				\If{$node_1$ is connected to a stub} \label{alg:2.5}
-					\State call \Call{ExtendingStub\_Start}{$ucm, node_2, node_1$} \label{alg:2.6}
-				\ElsIf{$node_2$ is connected to a stub} \label{alg:2.7}
-					\State call \Call{ReusingStub\_End}{$ucm, node_2, node_1$} \label{alg:2.8}
+			\ElsIf{\emph{node}\textsubscript{1} is {\cls EndPoint}}
+				\If{\emph{node}\textsubscript{1} is connected to a stub} \label{alg:2.5}
+					\State call \Call{ExtendingStub\_Start}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.6}
+				\ElsIf{\emph{node}\textsubscript{2} is connected to a stub} \label{alg:2.7}
+					\State call \Call{ReusingStub\_End}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.8}
 				\EndIf
 			\EndIf
 		\EndFunction
 		
-		\Function{ExtendingStub\_End}{$ucm, node_2, node_1$} \label{alg:2.9}
-			\State $source_2\gets$ get source node of $node_2$
-			\State $source_1\gets$ get source node of $node_1$ via stub connection
-			\State $target_1\gets$ get target node of $node_1$ via stub connection
-			\State call \Call{MergePaths}{$source_2, source_1, target_1, node_1, node_1$}
-			\State remove $node_2$ from $ucm$
+		\Function{ExtendingStub\_End}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.9}
+			\State \emph{source}\textsubscript{2} $\gets$ get source node of \emph{node}\textsubscript{2}
+			\State \emph{source}\textsubscript{1} $\gets$ get source node of \emph{node}\textsubscript{1} via stub connection
+			\State \emph{target}\textsubscript{1} $\gets$ get target node of \emph{node}\textsubscript{1} via stub connection
+			\State call \Call{MergePaths}{\emph{source}\textsubscript{2}, \emph{source}\textsubscript{1}, \emph{target}\textsubscript{1}, \emph{node}\textsubscript{1}, \emph{node}\textsubscript{1}}
+			\State remove \emph{node}\textsubscript{2} from \emph{ucm}
 		\EndFunction \label{alg:2.10}
 		
-		\Function{ReusingStub\_Start}{$ucm, node_2, node_1$} \label{alg:2.11}
-			\State $target_1\gets$ get target node of $node_1$
-			\State $target_2\gets$ get target node of $node_2$ via stub connection
-			\State $source_2\gets$ get source node of $node_2$ via stub connection
-			\State call \Call{SplitPaths}{$target_1, target_2, source_2, node_2, node_1$}
-			\State remove $node_1$ from $ucm$
+		\Function{ReusingStub\_Start}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.11}
+			\State \emph{target}\textsubscript{1} $\gets$ get target node of \emph{node}\textsubscript{1}
+			\State \emph{target}\textsubscript{2} $\gets$ get target node of \emph{node}\textsubscript{2} via stub connection
+			\State \emph{source}\textsubscript{2} $\gets$ get source node of \emph{node}\textsubscript{2} via stub connection
+			\State call \Call{SplitPaths}{\emph{target}\textsubscript{1}, \emph{target}\textsubscript{2}, \emph{source}\textsubscript{2}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\State remove \emph{node}\textsubscript{1} from \emph{ucm}
 		\EndFunction \label{alg:2.12}
 		
-		\Function{ExtendingStub\_Start}{$ucm, node_2, node_1$} \label{alg:2.13}
-			\State $target_2\gets$ get target node of $node_2$
-			\State $target_1\gets$ get target node of $node_1$ via stub connection
-			\State $source_1\gets$ get source node of $node_1$ via stub connection
-			\State call \Call{SplitPaths}{$target_2, target_1, source_1, node_1, node_1$}
-			\State remove $node_2$ from $ucm$
+		\Function{ExtendingStub\_Start}{\emph{ucm} \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.13}
+			\State \emph{target}\textsubscript{2} $\gets$ get target node of \emph{node}\textsubscript{2}
+			\State \emph{target}\textsubscript{1} $\gets$ get target node of \emph{node}\textsubscript{1} via stub connection
+			\State \emph{source}\textsubscript{1} $\gets$ get source node of \emph{node}\textsubscript{1} via stub connection
+			\State call \Call{SplitPaths}{\emph{target}\textsubscript{2}, \emph{target}\textsubscript{1}, \emph{source}\textsubscript{1}, \emph{node}\textsubscript{1}, \emph{node}\textsubscript{1}}
+			\State remove \emph{node}\textsubscript{2} from \emph{ucm}
 		\EndFunction \label{alg:2.14}
 		
 		\algstore{alg2}
@@ -204,52 +204,52 @@ Complex scenario model composition is also possible with the help of {\cls Anyth
 	\begin{algorithmic}[1]
 		\algrestore{alg2}
 		
-		\Function{ReusingStub\_End}{$ucm, node_2, node_1$} \label{alg:2.15}
-			\State $source_1\gets$ get source node of $node_1$
-			\State $source_2\gets$ get source node of $node_2$ via stub connection
-			\State $target_2\gets$ get target node of $node_2$ via stub connection
-			\State call \Call{MergePaths}{$source_1, source_2, target_2, node_2, node_1$}
-			\State remove $node_1$ from $ucm$
+		\Function{ReusingStub\_End}{\emph{ucm}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}} \label{alg:2.15}
+			\State \emph{source}\textsubscript{1} $\gets$ get source node of \emph{node}\textsubscript{1}
+			\State \emph{source}\textsubscript{2} $\gets$ get source node of \emph{node}\textsubscript{2} via stub connection
+			\State \emph{target}\textsubscript{2} $\gets$ get target node of \emph{node}\textsubscript{2} via stub connection
+			\State call \Call{MergePaths}{\emph{source}\textsubscript{1}, \emph{source}\textsubscript{2}, \emph{target}\textsubscript{2}, \emph{node}\textsubscript{2}, \emph{node}\textsubscript{1}}
+			\State remove \emph{node}\textsubscript{1} from \emph{ucm}
 		\EndFunction \label{alg:2.16}
 		
-		\Function{SplitPaths}{$target, target', source', node, node'$}
-			\If{$target'$ is {\cls Stub}} \label{alg:2.17}
-				\State mark $target'$ as removable stub
-				\State set target node of $node$'s stub connection to $target$ \label{alg:2.18}
-			\ElsIf{$target'$ is {\cls AndFork} or {\cls OrFork}} \label{alg:2.19}
-				\State create node connection between $target'$ and $target$ \label{alg:2.20}
+		\Function{SplitPaths}{\emph{target}, \emph{target}$'$, \emph{source}$'$, \emph{node}, \emph{node}$'$}
+			\If{\emph{target}$'$ is {\cls Stub}} \label{alg:2.17}
+				\State mark \emph{target}$'$ as removable stub
+				\State set target node of \emph{node}'s stub connection to \emph{target} \label{alg:2.18}
+			\ElsIf{\emph{target}$'$ is {\cls AndFork} or {\cls OrFork}} \label{alg:2.19}
+				\State create node connection between \emph{target}$'$ and \emph{target} \label{alg:2.20}
 			\Else \label{alg:2.21}
-				\State $referenceStub\gets$ get target node of $node'$ via stub connection
-				\State $forkNode\gets$ \textbf{if} $referenceStub$ is dynamic \textbf{then} create {\cls AndFork} \textbf{else} {\cls OrFork}
-				\State place $forkNode$ in between $source'$ and $target'$
-				\State create node connection between $forkNode$ and $target'$
-				\State create node connection between $forkNode$ and $target$
-				\State set target node of $node$'s stub connection to $forkNode$
+				\State \emph{referenceStub} $\gets$ get target node of \emph{node}$'$ via stub connection
+				\State \emph{forkNode} $\gets$ \textbf{if} \emph{referenceStub} is dynamic \textbf{then} create {\cls AndFork} \textbf{else} {\cls OrFork}
+				\State place \emph{forkNode} in between \emph{source}$'$ and \emph{target}$'$
+				\State create node connection between \emph{forkNode} and \emph{target}$'$
+				\State create node connection between \emph{forkNode} and \emph{target}
+				\State set target node of \emph{node}'s stub connection to \emph{forkNode}
 			\EndIf \label{alg:2.22}
 		\EndFunction
 		
-		\Function{MergePaths}{$source, source', target', node, node'$}
-			\If{$source'$ is {\cls Stub}} \label{alg:2.23}
-				\State mark $source'$ as removable stub
-				\State set source node of $node$'s stub connection to $source$ \label{alg:2.24}
-			\ElsIf{$source'$ is {\cls AndJoin} or {\cls OrJoin}} \label{alg:2.25}
-				\State create node connection between $source$ and $source'$ \label{alg:2.26}
+		\Function{MergePaths}{\emph{source}, \emph{source}$'$, \emph{target}$'$, \emph{node}, \emph{node}$'$}
+			\If{\emph{source}$'$ is {\cls Stub}} \label{alg:2.23}
+				\State mark \emph{source}$'$ as removable stub
+				\State set source node of \emph{node}'s stub connection to \emph{source} \label{alg:2.24}
+			\ElsIf{\emph{source}$'$ is {\cls AndJoin} or {\cls OrJoin}} \label{alg:2.25}
+				\State create node connection between \emph{source} and \emph{source}$'$ \label{alg:2.26}
 			\Else \label{alg:2.27}
-				\State $referenceStub\gets$ get source node of $node'$ via stub connection
-				\State $joinNode\gets$ \textbf{if} $referenceStub$ is synchronizing \textbf{then} create {\cls AndJoin} \textbf{else} {\cls OrJoin}
-				\State place $joinNode$ in between $source'$ and $target'$
-				\State create node connection between $source'$ and $joinNode$
-				\State create node connection between $source$ and $joinNode$
-				\State set source node of $node$'s stub connection to $joinNode$
+				\State \emph{referenceStub} $\gets$ get source node of \emph{node}$'$ via stub connection
+				\State \emph{joinNode} $\gets$ \textbf{if} \emph{referenceStub} is synchronizing \textbf{then} create {\cls AndJoin} \textbf{else} {\cls OrJoin}
+				\State place \emph{joinNode} in between \emph{source}$'$ and \emph{target}$'$
+				\State create node connection between \emph{source}$'$ and \emph{joinNode}
+				\State create node connection between \emph{source} and \emph{joinNode}
+				\State set source node of \emph{node}'s stub connection to \emph{joinNode}
 			\EndIf \label{alg:2.28}
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
-Mapping with connecting points allows for model extensions between parent and child UCMs and also model reuses from UCMs of other concerns. Algorithm~\ref{alg:2} illustrates the procedure of weaving for connecting point mappings. The function \emph{WeaveConnectingPointMapping} initiates the process by identifying the mapped connecting points (\emph{from} $UCM_1$ \emph{to} $UCM_2$), and determine the type of composition to be performed based on whether the connecting points mapped from $UCM_1$ are attached to a stub or not. If the mapped start and end points from $UCM_1$ are attached to a stub (lines~\ref{alg:2.1}-\ref{alg:2.2} and~\ref{alg:2.5}-\ref{alg:2.6}), it means that the connecting points are hidden and belong to a stub in $UCM_1$ and are mapped to actual end and start points of $UCM_2$, respectively (cross mapping). This type of composition is model extension. Vice versa for model reuse (lines~\ref{alg:2.3}-\ref{alg:2.4} and~\ref{alg:2.7}-\ref{alg:2.8}).
+Mapping with connecting points allows for model extensions between parent and child UCMs and also model reuses from UCMs of other concerns. Algorithm~\ref{alg:2} illustrates the procedure of weaving for connecting point mappings. The function \emph{WeaveConnectingPointMapping} initiates the process by identifying the mapped connecting points (\emph{from} \emph{UCM}\textsubscript{1} \emph{to} \emph{UCM}\textsubscript{2}), and determine the type of composition to be performed based on whether the connecting points mapped from \emph{UCM}\textsubscript{1} are attached to a stub or not. If the mapped start and end points from \emph{UCM}\textsubscript{1} are attached to a stub (lines~\ref{alg:2.1}-\ref{alg:2.2} and~\ref{alg:2.5}-\ref{alg:2.6}), it means that the connecting points are hidden and belong to a stub in \emph{UCM}\textsubscript{1} and are mapped to actual end and start points of \emph{UCM}\textsubscript{2}, respectively (cross mapping). This type of composition is model extension. Vice versa for model reuse (lines~\ref{alg:2.3}-\ref{alg:2.4} and~\ref{alg:2.7}-\ref{alg:2.8}).
 
 Model extension for stubs work differently compared with responsibilities. No traversal is required since there is no need to explore the whole graph, but the composition specification requires exactly two connecting point mappings for each stub to be complete---one for the start point and the second for end point. The weaver first obtain the pair of mappings for the stub. The initial mapping usually maps the end point of a stub \footnote{The end point of a stub symbolizes incoming node connection to the stub.} to the start point of a UCM, and the weaver executes lines~\ref{alg:2.9}-\ref{alg:2.10}. The second mapping usually maps the start point of a stub \footnote{The start point of a stub symbolizes outgoing node connection from the stub.} to the end point of a UCM, and the weaver executes lines~\ref{alg:2.13}-\ref{alg:2.14}.
 
-Model reuse, on the other hand, operates in reversed orientation---obtaining the pairs of mappings that mapped the start and end points of $UCM_1$ to the connecting points of a stub that is automatically generated in $UCM_2$ when reusing $UCM_1$. To be precise, the automatically generated stub is always a static stub so that it can only hold a single UCM that originates from the reused concern. The weaver then executes lines~\ref{alg:2.11}-\ref{alg:2.12} and~\ref{alg:2.15}-\ref{alg:2.16}, respectively.
+Model reuse, on the other hand, operates in reversed orientation---obtaining the pairs of mappings that mapped the start and end points of \emph{UCM}\textsubscript{1} to the connecting points of a stub that is automatically generated in \emph{UCM}\textsubscript{2} when reusing \emph{UCM}\textsubscript{1}. To be precise, the automatically generated stub is always a static stub so that it can only hold a single UCM that originates from the reused concern. The weaver then executes lines~\ref{alg:2.11}-\ref{alg:2.12} and~\ref{alg:2.15}-\ref{alg:2.16}, respectively.
 
 The execution procedure for both extension and reuse involves replacing a stub with plug-ins (sub-UCMs). Depending on the type of stub, it can bind either a single plug-in or multiple plug-ins. When facing a single plug-in bound to a stub, the weaver simply connects the nodes adjacent to the stub and nodes adjacent to the connecting points of a UCM, followed by the removal of the connecting points and the stub from the woven model (lines~\ref{alg:2.17}-\ref{alg:2.18} and~\ref{alg:2.23}-\ref{alg:2.24}). If there are two plug-ins bound to a stub, the weaver creates branches to link the two UCMs as parallel paths via fork and join nodes (lines~\ref{alg:2.21}-\ref{alg:2.22} and~\ref{alg:2.27}-\ref{alg:2.28}). The type of forks and joins being created is dependent on the type of stub. Synchronizing/blocking stubs produce branches that consist of {\cls AndFork} and {\cls AndJoin}, dynamic stubs produce branches that consist of {\cls AndFork} and {\cls OrJoin}, and static stubs produce branches that consist of {\cls OrFork} and {\cls OrJoin}. This process is also known as semantic flattening \cite{itu2012151}. Additional plug-ins bound to a stub are linked via the created forks and joins (lines~\ref{alg:2.19}-\ref{alg:2.20} and~\ref{alg:2.25}-\ref{alg:2.26}).
