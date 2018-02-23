@@ -1,8 +1,8 @@
-The definition of UCM metamodel and the specification of weaving algorithm described in the previous chapter provide the foundation for the implementation of UCM in TouchCORE, a multitouch-enabled concern-oriented software design modeling tool. In this chapter, we illustrate the realization of scenario models in TouchCORE through the use of UCM notation in section~\ref{sec:4.1}. Then we attempt to validate our proposed approach of concern-oriented UCMs by means of case studies in section~\ref{sec:4.2}. Finally, we demonstrate that concern-oriented UCMs are able to cover the workflow patterns in section~\ref{sec:4.3}.
+The definition of UCM metamodel and the specification of weaving algorithm described in the previous chapter provide the foundation for the implementation of UCM in TouchCORE, a multitouch-enabled concern-oriented software design modeling tool. In this chapter, we illustrate the realization of scenario models in TouchCORE through the use of UCM notation in section~\ref{sec:4.1}. Then we attempt to validate our proposed approach of concern-oriented UCMs by means of case studies in section~\ref{sec:4.2}. Finally, we demonstrate that CoUCMs are able to cover the workflow patterns in section~\ref{sec:4.3}.
 
 \section{UCM Implementation in TouchCORE} \label{sec:4.1}
 
-TouchCORE is under active development within the Software Engineering Lab at McGill University \cite{sel2015touchcore}. Previous project, TouchRAM, successfully implemented concern-oriented software design paradigm, but support is limited to RAM (class, sequence, and state diagrams) \cite{al2012touchram, schottle2014touchram}. TouchCORE extends TouchRAM with numerous enhancements, most notably the support for arbitrary modeling languages in addition to RAM. Since we have a well-defined corified UCM metamodel, we attempted to add support for UCMs in TouchCORE as proof of concept, enabling TouchCORE the capability to build scalable and reusable scenario models.
+TouchCORE is under active development within the Software Engineering Lab at McGill University \cite{sel2018touchcore}. Previous project, TouchRAM, successfully implemented concern-oriented software design paradigm, but support is limited to RAM (class, sequence, and state diagrams) \cite{al2012touchram, schottle2014touchram}. TouchCORE extends TouchRAM with numerous enhancements, most notably the support for arbitrary modeling languages in addition to RAM. Since we have a well-defined corified UCM metamodel, we attempt to add support for CoUCM in TouchCORE as proof of concept, enabling TouchCORE the capability to build scalable and reusable scenario models.
 
 The project uses Java SE Development Kit 8 as the implementation language and Eclipse Modeling Framework (EMF)~\cite{steinberg2008emf} as the modeling facility for developing TouchCORE. To support a new language, we need to define its metamodel based on Ecore. TouchCORE already has a complete CORE metamodel defined with an Ecore model (see Figure~\ref{fig:a.1}). With RAM as a reference model, we constructed an Ecore model that expresses our complete UCM metamodel, subclassing the appropriate CORE metaclasses, through the use of EMF tooling (see Figure~\ref{fig:a.2} in Appendix~\ref{ch:A} for complete UCM metamodel). EMF is capable of generating structured Java code from valid Ecore models, allowing us to rapidly program the logic for UCM integration.
 
@@ -134,12 +134,12 @@ The deferred choice pattern allows the moment of choice to be suspended as late 
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1.3]{fig_4_11.png}
+	\includegraphics[scale=1.25]{fig_4_11.png}
 	\caption{Deferred choice pattern}
 	\label{fig:4.11}
 \end{figure}
 
-Typical implementation of deferred choice is using an AND-fork to enable all parallel branches. After one of the branches has started processing, all other branches are canceled. Since the UCM notation does not have the ability to signal for cancellation of other branches, an alternative strategy is the use of XOR-split. Figure~\ref{fig:4.11} illustrates the OR-fork implementation for the deferred choice pattern; the \emph{Trigger} is responsible for activating the proper branch, by setting $option_1$ to $true$ and $option_2$ to $false$ or vice versa. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reuse is in the milestone pattern.
+Typical implementation of deferred choice is using an AND-fork to enable all parallel branches. After one of the branches has started processing, all other branches are canceled. Since the UCM notation does not have the ability to signal for cancellation of other branches, an alternative strategy is the use of XOR-split. Figure~\ref{fig:4.11} illustrates the OR-fork implementation for the deferred choice pattern; the \emph{Trigger} is responsible for activating the proper branch, by setting \emph{option}\textsubscript{1} to \emph{true} and \emph{option}\textsubscript{2} to \emph{false} or vice versa. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reuse is in the milestone pattern.
 
 \subsection{Milestone}
 
@@ -147,9 +147,9 @@ The milestone pattern supports the conditional execution of a task only if a par
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=1.3]{fig_4_12.png}
+	\includegraphics[scale=1.25]{fig_4_12.png}
 	\caption{Milestone pattern (enrolment example)}
 	\label{fig:4.12}
 \end{figure}
 
-Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly different. We took an example of student enrolment, applying the milestone pattern (deferred choice implementation), as shown in Figure~\ref{fig:4.12}. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} ($option_1$) can only be activated when the token on the other parallel path reaches \emph{Open enrolment} but before reaching \emph{Close off}. All other instances would result in inaccessible path $option_1$, leading to the only exit path available that is \emph{End of enrolment} ($option_2$).
+Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly different. We took an example of student enrolment, applying the milestone pattern (deferred choice implementation), as shown in Figure~\ref{fig:4.12}. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} (\emph{option}\textsubscript{1}) can only be activated when the token on the other parallel path reaches \emph{Open enrolment} but before reaching \emph{Close off}. All other instances would result in inaccessible path \emph{option}\textsubscript{1}, leading to the only exit path available that is \emph{End of enrolment} (\emph{option}\textsubscript{2}).
