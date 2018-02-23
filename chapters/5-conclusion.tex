@@ -1,7 +1,15 @@
 \section{Summary}
 
-Recap of thesis: what I did so far and what can the tool achieve.
+Requirements elicitation forms a fundamental piece of software engineering and is typically performed at the initial phase of the software development process. This thesis introduces CoUCM that consolidates scenario modeling with advanced SoC, MDE, and SPL. Along with the already existing GRL support for goal modeling in CORE, the addition of UCM offers a complete URN package for requirements engineering in CORE.
+
+The proof of concept implementation of CoUCM in TouchCORE demonstrates the project's feasibility. TouchCORE is a modeling tool that provides an intuitive interface for concern-oriented software design. Both CoUCM and RAM allow TouchCORE users to model at different level of abstractions, covering the requirements and design phases. In addition, modelers can now populate the TouchCORE library with reusable scenario models encoding essential recurring requirements concerns (e.g., functional units, workflow patterns, etc).
+
+Limitations of the work exists, however, and serve as potential future work for improvements, which we discuss in the next section.
 
 \section{Future Work}
 
-Remaining tasks such as components, path drawing, validation, semantics, etc.
+The integration of UCM to CORE has not been completed yet, specifically the use of {\cls ResponsibilityRef}s to refer to a particular {\cls Responsibility} definition from multiple reference points that belong to other UCMs, as well as the use of {\cls Component}s to model the architectural structure of a system. Implementation of {\cls Component} to CoUCM poses some difficulties especially when taking model composition into account as responsibilities within a component are bound to the component. Several other model elements including waiting place, timer, failure point, and abort could be added to the CoUCM metamodel to complete the standard UCM features.
+
+Similarly, the implementation of scenario modeling to TouchCORE is in the alpha phase. TouchCORE features such as traceability and model validation could be implemented to allow for a better scenario modeling experience. Path drawing could be improved as current implementation uses straight lines to connect path nodes; splines would work well if supported by TouchCORE GUI. One of the jUCMNav tool's features is the path traversal mechanism~\cite{kealey2007enhanced2}. If implemented in TouchCORE, this mechanism allows for UCM analysis and is particularly useful in evaluating scenario variables when traversing paths.
+
+Supplementary work to the CORE base design is needed to allow a more seamless integration of multiple modeling languages. Since this is one of the early works (after RAM) that extends a modeling language (UCM) with concern-orientation, future addition of modeling languages to CORE can refer to this work as reference. We hope that this work would motivate future studies to further improve the CORE paradigm.
