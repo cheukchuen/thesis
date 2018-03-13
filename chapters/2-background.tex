@@ -93,7 +93,7 @@ In Step~3 of the reuse process, the concern user can then use the functionality 
 
 The usage interface manifests itself in the metamodel excerpt shown in Figure~\ref{fig:2.5} by the \emph{visibility} attribute of {\cls COREModelElement}. A model element can either be accessed by a reusing concern (\emph{Public}) or is only visible within a concern (\emph{Concern}).
 
-\subsection{CORE Weaver}
+\subsection{CORE Weaver} \label{sec:2.1.2}
 
 As explained in Step~1 of the reuse process, after the user selects the desired features of the reused concern, the modeling tool composes the realization models of the selected features to yield a realization of the concern that only contains the features that the user intends to use. This subsection describes the weaving process that flattens an entire concern hierarchy given a specific configuration to generate a final realization model where all involved concerns are merged. The process of model composition utilizes the weaver that weaves recursively by traversing the concern hierarchy, as illustrated in detail by Kienzle et al.~\cite{kienzle2009aspect}, in which the composition algorithms support delayed decision making in CORE~\cite{kienzle2016delaying}. Each corified modeling language has its own weaver to compose a particular model as different models require specific algorithm for composition. Nonetheless, CORE has a generic weaver that administers model composition to the appropriate weaver. The CORE weaver performs either a \emph{single weave} or \emph{complete weave}.
 
