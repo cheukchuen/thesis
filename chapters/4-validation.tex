@@ -134,20 +134,22 @@ The purpose of these case studies is to demonstrate the application of model reu
 
 \section{Workflow Patterns} \label{sec:4.3}
 
-This last section demonstrates the use of CoUCMs to implement some of the workflow patterns described by van der Aalst et al.~\cite{van2003workflow}. We chose to cover two of the state-based patterns---\emph{Deferred Choice} and \emph{Milestone}---as they present the appropriate level of complexity, given that some of the workflow patterns are primitive and already supported by the standard UCM notations, as well as the constraints imposed by our partial implementation of the UCM notations in TouchCORE.
+This last section evaluates CoUCM by implementing some of the workflow patterns~\cite{van2003workflow, russell2006workflow} to assess the applicability of CoUCM for workflow description. Workflow patterns capture fundamental requirements that arise during business process modeling on a recurring basis. 43 identified patterns are categorized into six different perspectives relevant for process-aware information systems: control-flow, data, resource, exception handling, presentation, and event log imperfections. We chose to cover two of the state-based control-flow patterns---\emph{Deferred Choice} and \emph{Milestone}---as they present the appropriate level of complexity, given that most of the workflow patterns are primitive and already supported by the available UCM constructs, or not directly supported by the standard UCM notation~\cite{mussbacher2011aspect}.
 
 \subsection{Deferred Choice}
 
 The deferred choice pattern allows the moment of choice to be suspended as late as necessary---process can only continue based on external factors. In essence, all branches represent possible future courses of execution. Only once the decision has been made to proceed with a particular branch, execution for the other branches come to a halt. 
 
-\begin{figure}[h]
+Typical implementation of deferred choice is by using an AND-fork to enable all parallel branches. After one of the branches has started processing, all other branches are canceled, though this implementation requires the use of cancellation and exception mechanism. An alternative strategy is the use of XOR-split, and two variations exist for this strategy: (i) OR-fork without any specified conditions, or (ii) OR-fork with specified conditions and an additional activity that can distinguish between triggers. The first variation works implicitly by delaying the decision to select which branch to execute until the first activity of one branch has started processing, but an OR-fork without any specified conditions is non-deterministic. The second variation is preferable because it allows complex models to be built around the use of scenario variables for UCM path traversal mechanism~\cite{kealey2007enhanced2}.\footnote{Scenario variables and traversal mechanism have not been implemented and is part of CoUCM future enhancements.}
+
+\begin{figure}
 	\centering
 	\includegraphics[scale=1.25]{fig_4_12.png}
 	\caption{Deferred choice pattern}
 	\label{fig:4.12}
 \end{figure}
 
-Typical implementation of deferred choice is using an AND-fork to enable all parallel branches. After one of the branches has started processing, all other branches are canceled. Since the UCM notation does not have the ability to signal for cancellation of other branches, an alternative strategy is the use of XOR-split. Figure~\ref{fig:4.11} illustrates the OR-fork implementation for the deferred choice pattern; the \emph{Trigger} is responsible for activating the proper branch, by setting \emph{option}\textsubscript{1} to \emph{true} and \emph{option}\textsubscript{2} to \emph{false} or vice versa. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reuse is in the milestone pattern.
+Figure~\ref{fig:4.12} illustrates the OR-fork implementation for the deferred choice pattern of the second variation; the \emph{Trigger} is responsible for activating the proper branch, by setting \emph{opt}\textsubscript{1} to \emph{true} or \emph{false} (\emph{false} by default), leading to paths Option 1 if \emph{opt}\textsubscript{1} is true or Option 2 if \emph{opt}\textsubscript{1} is false. The partiality of \emph{Trigger} and \emph{opt}\textsubscript{1} is set to \emph{public partial} and intended to be completed through mappings. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reusing the deferred choice pattern is in the milestone pattern.
 
 \subsection{Milestone}
 
@@ -160,6 +162,15 @@ The milestone pattern supports the conditional execution of a task only if a par
 	\label{fig:4.13}
 \end{figure}
 
-Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly differently. We took an example of student enrolment, applying the milestone pattern (deferred choice implementation), as shown in Figure~\ref{fig:4.12}. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} (\emph{option}\textsubscript{1}) can only be activated when the token on the other parallel path reaches \emph{Open enrolment} but before reaching \emph{Close off}. All other instances would result in inaccessible path \emph{option}\textsubscript{1}, leading to the only exit path available that is \emph{End of enrolment} (\emph{option}\textsubscript{2}).
+Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly differently. As shown in Figure~\ref{fig:4.13}, we take an example of student enrolment and apply the milestone pattern (deferred choice implementation) to model the enrolment process. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} (Option 1) can only be activated when the token on the other parallel path reaches \emph{Open enrolment}, but before reaching \emph{Close off}. All other instances would result in inaccessible path Option 1, leading to the only exit path available that is \emph{End of enrolment} (Option 2).
 
-\todo[inline]{I don't understand in your example how you specify that the "trigger" activity within deferred choice is going to check whether  the enrolment is open or not, and set the correct conditions (option 1 or option 2) for the paths. You don't seem to map "trigger" in your reuse.}
+In addition to mapping the required connecting points when a static stub is generated for reusing a concern, we mapped the responsibility \emph{Trigger} to both \emph{Open enrolment} and \emph{Close off}. Since the current responsibility mappings are specific to model extensions, responsibility mappings in model reuses shown in Figure~\ref{fig:4.13} serve as a concept whereby scenario variables of the mapped responsibilities can be executed when evaluating the UCMs through the traversal mechanism. For sophisticated models such as the milestone pattern where one parallel branch influences another parallel branch, a specialized traversal mechanism is required for this pattern as well as the deferred choice pattern.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{fig_4_14.pdf}
+	\caption{Structural view of deferred choice and milestone patterns (concept)}
+	\label{fig:4.14}
+\end{figure}
+
+To further illustrate the concept of scenario variables in CoUCM, we arrive at the idea of utilizing the multi-view modeling of design models (RAM)~\cite{kienzle2009aspect} to specify the variables. Figure~\ref{fig:4.14} shows the structural view excerpt of the patterns using class diagram. The idea is to map from the attribute \emph{opt1} (\emph{public}) and the operation \emph{setOpt1} (\emph{public}) of DeferredChoice, to the attribute \emph{enrol} and the operation \emph{setEnrol} of Milestone, respectively. This sets up the structure for scenario models so that the variable \emph{enrol} is initialized for use in the Milestone UCM, and the method \emph{setEnrol} can be used by \emph{Open enrolment} and \emph{Close off} in the Milestone UCM to toggle \emph{enrol}. Nonetheless, multi-view modeling, integrated with scenario models, can be a powerful tool to build scalable models that bridges the gap between structural and behavioral modeling.
