@@ -1,6 +1,11 @@
 \documentclass[12pt,letterpaper]{report}
 \usepackage[margin=1in,includeheadfoot]{geometry}
-\usepackage[hidelinks,bookmarksnumbered]{hyperref}
+\usepackage[pdftex,
+pdfauthor={Cheuk Chuen Siow},
+pdftitle={Concern-Oriented Use Case Maps},
+pdfsubject={Computer Science},
+pdfkeywords={CORE, UCM},
+hidelinks,bookmarksnumbered]{hyperref}
 \usepackage[figure,table]{hypcap}
 \usepackage[nottoc]{tocbibind}
 \usepackage[titletoc]{appendix}
@@ -48,109 +53,107 @@
 % Title Page
 %----------------
 \begin{document}
-
-\begin{titlepage}
-	\begin{center}
-		\vspace*{1in}
+	
+	\begin{titlepage}
+		\begin{center}
+			\vspace*{1in}
+			
+			\Huge
+			Concern-Oriented Use Case Maps
+			
+			\vfill
+			
+			\large
+			Cheuk Chuen Siow\\
+			School of Computer Science\\
+			McGill University, Montréal
+			
+			\vfill
+			
+			\monthyeardate\today
+			
+			\vfill
+			
+			A thesis submitted to McGill University in partial fulfillment of the requirements of the degree of Master of Science
+			
+			\vfill
+			
+			\textcopyright{} Cheuk Chuen Siow, \yeardate\today
+			
+			\vspace*{1in}
+		\end{center}
+	\end{titlepage}
+	
+	%----------------
+	% Front Matter
+	%----------------
+	\clearpage
+	\pagenumbering{roman}
+	\setcounter{page}{2}
+	
+	\chapter*{Abstract}
+	\addcontentsline{toc}{chapter}{Abstract}
+	
+	Concern-Oriented Reuse (CORE) is a reuse paradigm that extends model-driven engineering with advanced modularization, goal modeling, and software product lines. Previous work enables modeling with CORE at the design level using Reusable Aspect Models (RAM). Requirements elicitation is also a crucial aspect of software development process, and one of the visual notation that expresses use cases as graphical workflows is Use Case Maps (UCM). UCM bridges the gap between requirements and design, and is part of the User Requirements Notation (URN) for scenario modeling. This thesis addresses the need for enabling scenario modeling in CORE. Based on Aspect-Oriented Use Case Maps (AoUCM), we introduce a novel technique that applies advanced separation of concerns for model-driven requirements elicitation with use cases---Concern-Oriented Use Case Maps (CoUCM). We define a metamodel for CoUCM that derives from the CORE metamodel, and formulate the weaving algorithm for CoUCM model composition. We then implement CoUCM in the TouchCORE tool as proof of concept. We present a working application of scenario modeling with TouchCORE, in which we further validate our implementation through case studies and workflow patterns. Validation shows that CoUCM is able to model requirements concerns that are reusable and scalable, and that further work is required to provide a more comprehensive implementation of CoUCM.
+	
+	\clearpage
+	
+	\chapter*{Abrégé}
+	\addcontentsline{toc}{chapter}{Abrégé}
+	
+	
+	
+	\clearpage
+	
+	\chapter*{Acknowledgements}
+	\addcontentsline{toc}{chapter}{Acknowledgements}
+	
+	Foremost, I would like to express my sincere gratitude to Professor Jörg Kienzle and Professor Gunter Mussbacher, my research supervisors, for their patient guidance and insightful comments of this research work. This thesis would not be possible without their supervision.
+	
+	I thank my fellow colleagues from the Software Engineering Lab for their encouragement and stimulating discussions that challenged me intellectually.
+	
+	Last but not least, I would like to thank my family and friends around the world for their support throughout my study.
+	
+	% Content
+	\renewcommand{\contentsname}{Table of Contents}
+	\tableofcontents
+	\listoffigures
+	%\listoftables
+	\listofalgorithms
+	\addcontentsline{toc}{chapter}{List of Algorithms}
+	
+	\clearpage
+	\pagenumbering{arabic}
+	
+	%----------------
+	% Main Body
+	%----------------
+	\chapter{Introduction}
+	\input{chapters/1-introduction}
+	
+	\chapter{Background} \label{ch:2}
+	\input{chapters/2-background}
+	
+	\chapter{Adding Support for UCM to CORE} \label{ch:3}
+	\input{chapters/3-support}
+	
+	\chapter{Validation} \label{ch:4}
+	\input{chapters/4-validation}
+	
+	\chapter{Conclusion} \label{ch:5}
+	\input{chapters/5-conclusion}
+	
+	%----------------
+	% End Matter
+	%----------------
+	\renewcommand\bibname{References}
+	\printbibliography[heading=bibintoc]
+	
+	\begin{appendices}
 		
-		\Huge
-		Concern-Oriented Use Case Maps
+		\chapter{Complete Metamodels} \label{ch:A}
+		\input{chapters/A-appendix}
 		
-		\vfill
-		
-		\large
-		Cheuk Chuen Siow\\
-		School of Computer Science\\
-		McGill University, Montréal
-		
-		\vfill
-		
-		\monthyeardate\today
-		
-		\vfill
-		
-		A thesis submitted to McGill University in partial fulfillment of the requirements for the degree of Master of Science in Computer Science
-		
-		\vfill
-		
-		\textcopyright{} Cheuk Chuen Siow \yeardate\today
-		
-		\vspace*{1in}
-	\end{center}
-\end{titlepage}
-
-%----------------
-% Front Matter
-%----------------
-\clearpage
-\pagenumbering{roman}
-\setcounter{page}{2}
-
-\chapter*{Abstract}
-\addcontentsline{toc}{chapter}{Abstract}
-
-Concern-Oriented Reuse (CORE) is a reuse paradigm that extends model-driven engineering with advanced modularization, goal modeling, and software product lines. Previous work enables modeling with CORE at the design level using Reusable Aspect Models (RAM). Requirements elicitation is also a crucial aspect of software development process, and one of the visual notation that expresses use cases as graphical workflows is Use Case Maps (UCM). UCM bridges the gap between requirements and design, and is part of the User Requirements Notation (URN) for scenario modeling. This thesis addresses the need for enabling scenario modeling in CORE. Based on Aspect-Oriented Use Case Maps (AoUCM), we introduce a novel technique that applies advanced separation of concerns for model-driven requirements elicitation with use cases---Concern-Oriented Use Case Maps (CoUCM). We define a metamodel for CoUCM that derives from the CORE metamodel, and formulate the weaving algorithm for CoUCM model composition. We then implement CoUCM in the TouchCORE tool as proof of concept. We present a working application of scenario modeling with TouchCORE, in which we further validate our implementation through case studies and workflow patterns. Validation shows that CoUCM is able to model requirements concerns that are reusable and scalable, and that further work is required to provide a more comprehensive implementation of CoUCM.
-
-\clearpage
-
-\chapter*{Abrégé}
-\addcontentsline{toc}{chapter}{Abrégé}
-
-
-
-\clearpage
-
-\chapter*{Acknowledgements}
-\addcontentsline{toc}{chapter}{Acknowledgements}
-
-
-
-\clearpage
-
-\chapter*{Preface}
-\addcontentsline{toc}{chapter}{Preface}
-
-
-
-% Content
-\renewcommand{\contentsname}{Table of Contents}
-\tableofcontents
-\listoffigures
-%\listoftables
-\listofalgorithms
-
-\clearpage
-\pagenumbering{arabic}
-
-%----------------
-% Main Body
-%----------------
-\chapter{Introduction}
-\input{chapters/1-introduction}
-
-\chapter{Background} \label{ch:2}
-\input{chapters/2-background}
-
-\chapter{Adding Support for UCM to CORE} \label{ch:3}
-\input{chapters/3-support}
-
-\chapter{Validation} \label{ch:4}
-\input{chapters/4-validation}
-
-\chapter{Conclusion} \label{ch:5}
-\input{chapters/5-conclusion}
-
-%----------------
-% End Matter
-%----------------
-\begin{appendices}
-
-\chapter{Complete Metamodels} \label{ch:A}
-\input{chapters/A-appendix}
-
-\end{appendices}
-
-\renewcommand\bibname{References}
-\printbibliography[heading=bibintoc]
-
+	\end{appendices}
+	
 \end{document}
