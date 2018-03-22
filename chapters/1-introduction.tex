@@ -10,7 +10,7 @@ Concern-Oriented Reuse (CORE) is a new software development paradigm or approach
 
 The main premise of CORE is that recurring development concerns are made available in a concern library, which eventually should cover most recurring software development needs. Similar to class libraries in modern programming languages, this library should grow as new development concerns emerge, and existing concerns should continuously evolve as alternative architectural, algorithmic, and technological solutions become available. Applications are built by reusing existing concerns from the library whenever possible, following a well-defined reuse process supported by clear interfaces. To generate an executable in which concerns exhibit intricate crosscutting structure and behavior, CORE relies on additive software composition techniques, feature-oriented technology, and aspect-oriented technology.
 
-Currently, CORE supports models at the design phase~\cite{kienzle2010aspect} only, but in order to fully integrate CORE with MDE, models typically used in other development phases should also be supported to also allow them to benefit from advanced modularization and reuse support. We are interested in adding support for CORE to models at the requirements phase, i.e., models that are typically built earlier than design models. We chose to concentrate on the User Requirements Notation (URN), which sets the standard as a visual notation for modeling and analyzing requirements~\cite{amyot2002urn}. URN formalizes and integrates two complementary languages: (i) Goal-oriented Requirements Language (GRL) to describe non-functional requirements as intentional elements, and (ii) Use Case Map (UCM) to describe functional requirements as causal scenarios. GRL and UCM are used to capture goal and scenario models, respectively. Since CORE already supports the use of goal models to analyze the impact of choosing features~\cite{alam2013concern}, this thesis focuses on integrating scenario models with the concepts of CORE.
+Currently, CORE only supports modelling notations that are used at the design phase~\cite{kienzle2010aspect}. In order to fully integrate CORE with MDE, other development phases should also be supported. We are interested in adding support for requirements modeling languages to CORE, so that requirements modellers too can benefit from advanced modularization and reuse support. We chose to concentrate on the User Requirements Notation (URN), which sets the standard as a visual notation for modeling and analyzing requirements~\cite{amyot2002urn}. URN formalizes and integrates two complementary languages: (i) Goal-oriented Requirements Language (GRL) to describe non-functional requirements as intentional elements, and (ii) Use Case Map (UCM) to describe functional requirements as causal scenarios. GRL and UCM are used to capture goal and scenario models, respectively. Since CORE already supports the use of goal models to analyze the impact of choosing features~\cite{alam2013concern}, this thesis focuses on integrating scenario models with the concepts of CORE.
 
 \section{Contributions}
 
@@ -18,16 +18,17 @@ This thesis advances the state-of-the-art in modeling by proposing a complete so
 
 \begin{itemize}
 
-\item UCM metamodel integration with CORE as the first necessary step to extend CORE concepts to UCM and formalize the language.
+\item A metamodel for CoUCM that extends the CORE meta model, thus formalizing the integration of the CORE concepts into the UCM language.
 
-\item Definition of weaving algorithm for UCMs that allows a requirements engineer to modularize scenarios according to concern features (i.e., a weaving algorithm compatible with CORE extension) as well as reuse existing scenarios when creating new ones (i.e., compatible with the CORE reuse mechanism).
+\item A CORE-compatible weaving algorithm for CoUCMs that takes as an input 2 CoUCM models and produces a composed CoUCM model. This makes it possible for requirements engineers to modularize scenarios according to concern features (i.e., a weaving algorithm compatible with CORE extension) as well as to reuse existing scenarios when creating new ones (i.e., compatible with the CORE reuse mechanism).
 
-\item Validation of feasibility of proposed solution by implementing the UCM metamodel and weaving algorithm in TouchCORE as proof of concept.
+\item An implementing the proposed CoUCM metamodel and weaving algorithm in TouchCORE, serving as a proof of concept validation.
 
-\item Validation of expressiveness of CoUCMs and demonstration of reuse potential by modeling the Authentication concern and Online Payment concern as case studies.
+\item A demonstration of the expressiveness and reuse potential of CoUCMs by means of an \emph{Authentication}, concern and \emph{Online Payment} concern, and 2 \emph{Workflow Patterns} case studies.
 
 \end{itemize}
 
 \section{Thesis Outline}
 
-The remainder of this thesis is structured as follows. Chapter~\ref{ch:2} offers background information on CORE and UCM, as well as existing modeling techniques closely related to our work. Chapter~\ref{ch:3} presents the integration of CORE with UCM. Chapter~\ref{ch:4} validates the resulting integration process. Finally, Chapter~\ref{ch:5} concludes the thesis and discusses possible future work.
+The remainder of this thesis is structured as follows. Chapter~\ref{ch:2} offers background information on CORE and UCM, as well as presents existing modeling techniques closely related to our work. Chapter~\ref{ch:3} details the integration of CORE with UCM, namely the CoUCM meta model and the different CoUCM weaving algorithms. Chapter~\ref{ch:4} validates the proposed meta model
+and weaving algorithms by presenting some details of the TouchCORE implementation. Finally, Chapter~\ref{ch:5} concludes the thesis and discusses possible future work.
