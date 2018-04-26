@@ -19,8 +19,7 @@ Abstract and concrete classes of the CORE metamodel are utilized differently whe
 
 We follow the URN specification~\cite{itu2012151} closely in corifying the UCM metamodel. Figure~\ref{fig:3.1} shows a partial view of the corified UCM metamodel, focusing on the elements that extend the CORE metamodel through subclassing (from an existing metaclass in the modeling language to an abstract CORE metaclass).\footnote{The gray elements in the figures are the classes that derived from the CORE metamodel.} By subclassing the necessary abstract classes of the CORE metamodel, UCM is able to provide all the properties of CORE:
 
-\begin{enumerate}
-	\setlength{\parskip}{0pt} \setlength{\itemsep}{0pt}
+\begin{enumerate}[noitemsep]
 	\item A UCM model may now belong to a concern by realizing at least one of its features.
 	\item A UCM realization model may now have impacts on high-level goals.
 	\item A UCM model may extend another UCM model that belongs to a different feature.
