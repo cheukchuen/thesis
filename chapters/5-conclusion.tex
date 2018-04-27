@@ -1,12 +1,24 @@
-\section{Summary}
-
 Requirements elicitation forms a fundamental piece of software engineering and is typically performed at the initial phase of the software development process. This thesis introduces CoUCM that consolidates scenario modeling with advanced SoC, MDE, and SPL. Along with the already existing GRL support for goal modeling in CORE, the addition of UCM offers a complete URN package for requirements engineering in CORE.
 
 The proof of concept implementation of CoUCM in TouchCORE demonstrates the project's feasibility. TouchCORE is a modeling tool that provides an intuitive interface for concern-oriented software design. Both CoUCM and RAM allow TouchCORE users to model at different level of abstractions, covering the requirements and design phases. In addition, modelers can now populate the TouchCORE library with reusable scenario models encoding essential recurring requirements concerns (e.g., functional units, workflow patterns, etc).
 
-Limitations of the work exists, however, and serve as potential future work for improvements, which we discuss in the next section.
+This chapter summarizes the work contributed to the thesis in Section~\ref{sec:5.1}. Limitations of the work exists, however, and serve as potential future work for improvements, which we discuss in Section~\ref{sec:5.2}.
 
-\section{Future Work}
+\section{Summary of Work} \label{sec:5.1}
+
+\begin{itemize}
+	
+	\item We defined the metamodel for CoUCM in Section~\ref{sec:3.1}. CORE now supports UCM as an additional modeling language. The metamodel is open to expansion and this allows additional UCM features to be added in the future.
+	
+	\item We introduced the weaving algorithm for composing CoUCMs in Section~\ref{sec:3.2}. The UCM weaver is capable of extending UCM model of a feature with another UCM model of a subfeature within a concern, allowing requirements engineers to modularize scenarios according to concern features. The weaver is also capable of reusing existing scenario concerns of interest from another concern, allowing requirements engineers to build larger model applications from smaller concerns. These two capabilities adhere to the principles of advanced SoC that is fundamental to the practice of model-driven software development.
+	
+	\item We implemented the CoUCM metamodel and weaving algorithm in the TouchCORE tool in Section~\ref{sec:4.1}. TouchCORE users now have the choice to realize scenario models, in addition to design models, for any features of a concern. TouchCORE provides the necessary functionalities for the users to build UCMs with touch gestures. Models are displayed via the tool's graphical interface to illustrate the causal relationships among the activities intuitively, and woven UCM models merged by the model composition process can be easily understood when visualized.
+	
+	\item We demonstrated the expressiveness and reuse potential of CoUCMs through case studies, with two concerns in Section~\ref{sec:4.2} and two workflow patterns in Section~\ref{sec:4.3}. The results validated the proposed CoUCM method, allowing requirements engineers to utilize the CORE concepts as a framework to build large-scale scenario models.
+	
+\end{itemize}
+
+\section{Future Work} \label{sec:5.2}
 
 The current UCM metamodel that we support in CORE does not cover all the model elements defined in the UCM standard. In particular, the use of {\cls ResponsibilityRef}s should refer to a particular {\cls Responsibility} definition from multiple reference points that belong to other UCMs, as well as the use of {\cls Component}s to model the architectural structure of a system. Implementation of {\cls Component} to CoUCM poses some difficulties especially when taking model composition into account as responsibilities within a component are bound to the component; we may also have to support mappings of components and this adds complexity to the weaving algorithm. Several other model elements including waiting place, timer, failure point, and abort could be added to the CoUCM metamodel to complete the standard UCM features.
 
