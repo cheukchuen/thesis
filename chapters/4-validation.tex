@@ -67,7 +67,7 @@ Figure~\ref{fig:4.5} illustrates the usage of UCM model reuse across concerns. G
 
 \section{Case Studies} \label{sec:4.2}
 
-In this section, we attempt to validate our proposed technique for CoUCMs with two case studies: Authentication and Online Payment. We chose these two examples as our case studies because they provide different yet appropriate level of complexity to the problem that we are studying, exemplify model extension within the Online Payment concern, as well as showcase the reuse of the Authentication concern within the Online Payment concern.
+In this section, we attempt to validate our proposed technique for CoUCMs with two case studies: Authentication and Online Payment. We chose these two examples as our case studies because they provide different yet appropriate level of complexity to the problem that we are studying, exemplify model extension within the Authentication concern, as well as showcase the reuse of the Authentication concern within the Online Payment concern.
 
 \subsection{Authentication}
 
@@ -87,6 +87,8 @@ We design the Authentication concern based on a reference model that we have pre
 	\label{fig:4.7}
 \end{figure}
 
+Scenario models can be (optionally) realized for the features to describe how the user would interact with the Authentication concern. Figure~\ref{fig:4.7} illustrates the UCM diagrams and plug-ins that are realized for most of the features. Then, with slight modifications to the UCMs specified in jUCMNav, we developed our version of the UCMs using TouchCORE as depicted in Figure~\ref{fig:4.8}. (Feature model remains unchanged and TouchCORE version of the feature model is omitted.)
+
 \begin{figure}
 	\centering
 	\includegraphics[scale=1.2]{fig_4_8.png}
@@ -94,39 +96,48 @@ We design the Authentication concern based on a reference model that we have pre
 	\label{fig:4.8}
 \end{figure}
 
-Scenario models can be (optionally) realized for the features to describe how the user would interact with the Authentication concern. Figure~\ref{fig:4.7} illustrates the UCM diagrams and plug-ins that are realized for most of the features. Then, with slight modifications to the UCMs specified in jUCMNav, we developed our version of the UCMs using TouchCORE as depicted in Figure~\ref{fig:4.8}. (Feature model remains unchanged and TouchCORE version of the feature model is omitted.)
+Notice that in the root map of Figure~\ref{fig:4.7}, each feature is represented as a static stub and is bound to a plug-in for the feature. In the root map developed using TouchCORE (see Figure~\ref{fig:4.8}), we successfully minimize the usage of stubs and instead utilize model extensions, isolating the aspects that crosscut the main concern. Since \emph{Authentication Means} is a mandatory feature, we introduce a responsibility placeholder and set its partiality to \emph{concern partial}. Any UCMs under the \emph{Authentication Means} feature can extend the root map via responsibility mapping. One advantage of using CORE approach in modeling UCMs is that by selecting the desired features when reusing this concern, only the UCMs of those selected features will be composed into the root map and a single UCM that consists of only the necessary paths will be generated.
 
-Notice that in the root map of Figure~\ref{fig:4.7}, each feature is represented as a static stub and is bound to a plug-in for the feature. In the root map developed using TouchCORE (see Figure~\ref{fig:4.8}), we minimize the usage of stubs and instead utilize model extensions, successfully isolating the aspects that crosscut the main concern. Since \emph{Authentication Means} is a mandatory feature, we introduce a responsibility placeholder and set its partiality to \emph{concern partial}. Any UCMs under the \emph{Authentication Means} feature can extend the root UCM via responsibility mapping. One advantage of using CORE approach in modeling UCMs is that by selecting the desired features when reusing this concern, only the UCMs of those selected features will be composed into the root map and a single UCM that consists of only the necessary paths will be generated. The woven UCM can be reused in another concern such as Online Payment.
+\begin{figure}
+	\centering
+	\subfloat[Feature selection of Authentication concern]{\label{fig:4.9a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_9a.png}} \\
+	\subfloat[Woven Authentication UCM based on selected features]{\label{fig:4.9b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_9b.png}}
+	\caption{Reused Authentication concern}
+	\label{fig:4.9}
+\end{figure}
+
+Figure~\ref{fig:4.9} illustrates model extension in practice based on a feature selection when generating the woven model of the reused concern. The selected features of the Authentication concern are \emph{Authentication}, \emph{Password}, and \emph{Auto Logoff} (Figure~\ref{fig:4.9a}). The features \emph{Access Blocking} and \emph{Password Expiry} are delayed for future decision. Concretely, the weaver composes the hierarchy using the top down approach and works as follows. Since the weaver understands that it has to perform model extensions for feature selection, it will choose to execute Algorithm~\ref{alg:1}. The weaver first weaves the features that belong to the first level in this hierarchy---which in this case is \emph{Auto Logoff}---into \emph{Authentication}. Within each extended realization models, the weaver iterates through the listed responsibility mappings (depicted in the models of Figure~\ref{fig:4.8}) and performs the procedure described in Algorithm~\ref{alg:1}, by traversing both ends of the mapped responsibilities and fuse the encountered start and end points from the child UCM to the branches of the parent UCM. This generates an intermediate model that holds the woven model comprising both the \emph{Auto Logoff} and \emph{Authentication} UCMs. The intermediate model extended the \emph{Authentication} UCM by inserting the sequence of path nodes surrounding the mapped \emph{Check authentication} responsibility, where an OR-fork with an additional branch that leads to the \emph{+Auto logged off} end point from the \emph{Auto Logoff} UCM are inserted between the \emph{Check authentication} and the adjacent OR-fork in the \emph{Authentication} UCM. Then, the weaver weaves the next level of features---which in this case is \emph{Password}---into this intermediate model, generating a final woven model that replaces the mapped \emph{Authentication means} partial responsibility with the \emph{Enter credentials} responsibility from the \emph{Password} UCM. This results in the final woven UCM shown in Figure~\ref{fig:4.9b} that can be reused in another concern such as Online Payment, which we discuss in the next subsection.
 
 \subsection{Online Payment}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[scale=1.5]{fig_4_9.png}
+	\includegraphics[scale=1.5]{fig_4_10.png}
 	\caption{Feature model for Online Payment}
-	\label{fig:4.9}
-\end{figure}
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=1]{fig_4_10.png}
-	\caption{Scenario models for Online Payment}
 	\label{fig:4.10}
 \end{figure}
 
-The Online Payment concern offers a means to build a payment model for an e-commerce platform. Use cases for Online Payment are adapted from the W3C Web Payments Interest Group \cite{w3c2015web}, focusing on the payment schemes in use today. Figure~\ref{fig:4.9} shows all the available features that are supported in the concern. Online Payment provides numerous payment methods for the customers to pay by credit card (e.g., Visa, MasterCard, China UnionPay), tokenized payment (e.g., ApplePay, Venmo, CyberSource), third-party payment (e.g., PayPal, Alipay, Google Pay), cryptocurrency (e.g., Bitcoin, Ripple, Ethereum), direct debit, or credit transfer. Optionally, the system supports a recurring payment option to handle subscription plans, and can also process refunds to the payer's payment instrument or store credit.
-
-Figure~\ref{fig:4.10} illustrates a typical workflow for Online Payment. In the root map, we have a single entry and exit point---from checkout to transaction complete---and a loop that redirects the user back to the payment selection if payment authorization fails. The payment method selection is modeled as a dynamic stub to receive multiple plug-ins from the subfeatures of \emph{PaymentMethod}. We limit the discussion of \emph{PaymentMethod} to \emph{ThirdParty} since the scenario model for paying through third-party is sufficient to describe the essential features, as most payment methods share a similar scenario.
-
 \begin{figure}
 	\centering
-	\subfloat[Feature selection of Authentication concern]{\label{fig:4.11a}\includegraphics[clip,width=0.7\columnwidth]{fig_4_11a.png}} \\
-	\subfloat[Woven Authentication UCM based on selected features]{\label{fig:4.11b}\includegraphics[clip,width=0.7\columnwidth]{fig_4_11b.png}}
-	\caption{Reused Authentication in ThirdParty model}
+	\includegraphics[scale=1]{fig_4_11.png}
+	\caption{Scenario models for Online Payment}
 	\label{fig:4.11}
 \end{figure}
 
-There are two things worth mentioning in the \emph{ThirdParty} model. First, \emph{ThirdParty} extends \emph{OnlinePayment} through the \emph{Select payment method} dynamic stub, hence mapping is done via connecting points. Second, \emph{ThirdParty} reuses the Authentication concern, which is depicted as a static stub, and the selected features including the root feature are \emph{Authentication}, \emph{Password} and \emph{Auto Logoff}, with \emph{Access Blocking} and \emph{Password Expiry} delayed for future decision (Figure~\ref{fig:4.11a}). The one incoming connection and three outgoing connections of the \emph{Authentication} stub are associated with the single start point (\emph{Authenticate}) and three end points (\emph{Authenticated}, \emph{Fail}, and \emph{Auto logged off}) of the reused Authentication UCM (Figure~\ref{fig:4.11b}).
+The Online Payment concern offers a means to build a payment model for an e-commerce platform. Use cases for Online Payment are adapted from the W3C Web Payments Interest Group \cite{w3c2015web}, focusing on the payment schemes in use today. Figure~\ref{fig:4.10} shows all the available features that are supported in the concern. Online Payment provides numerous payment methods for the customers to pay by credit card (e.g., Visa, MasterCard, China UnionPay), tokenized payment (e.g., ApplePay, Venmo, CyberSource), third-party payment (e.g., PayPal, Alipay, Google Pay), cryptocurrency (e.g., Bitcoin, Ripple, Ethereum), direct debit, or credit transfer. Optionally, the system supports a recurring payment option to handle subscription plans, and can also process refunds to the payer's payment instrument or store credit.
+
+Figure~\ref{fig:4.11} illustrates a typical workflow for Online Payment. In the root map, we have a single entry and exit point---from checkout to transaction complete---and a loop that redirects the user back to the payment selection if payment authorization fails. The payment method selection is modeled as a dynamic stub to receive multiple plug-ins from the subfeatures of \emph{PaymentMethod}. We limit the discussion of \emph{PaymentMethod} to \emph{ThirdParty} since the scenario model for paying through third-party is sufficient to describe the essential features, as most payment methods share a similar scenario.
+
+There are two things worth mentioning in the \emph{ThirdParty} model. First, \emph{ThirdParty} extends \emph{OnlinePayment} through the \emph{Select payment method} dynamic stub, hence mapping is done via connecting points. Second, \emph{ThirdParty} reuses the Authentication concern, which is depicted as a static stub, and the selected features including the root feature are \emph{Authentication}, \emph{Password} and \emph{Auto Logoff} (see Figure~\ref{fig:4.9a}). The one incoming connection and three outgoing connections of the \emph{Authentication} stub are associated with the single start point (\emph{Authenticate}) and three end points (\emph{Authenticated}, \emph{Fail}, and \emph{+Auto logged off}) of the reused Authentication UCM (see Figure~\ref{fig:4.9b}).
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1]{fig_4_12.png}
+	\caption{ThirdParty reusing the Authentication concern}
+	\label{fig:4.12}
+\end{figure}
+
+Figure~\ref{fig:4.12} depicts the Authentication UCM woven into the ThirdParty UCM when reusing the Authentication concern with the selected \emph{Authentication}, \emph{Password} and \emph{Auto Logoff} features defined in the previous subsection. Concretely, the weaver composes the reusing concern with the reused concern and works as follows. Since the weaver understands that it has to perform model reuses for concern reuses, it will choose to execute Algorithm~\ref{alg:2}. The weaver weaves existing concern reuses (Authentication depicted as a static stub) into ThirdParty. Within each concern reuses, the weaver iterates through the listed connecting point mappings (depicted in ThirdParty model of Figure~\ref{fig:4.11}) and performs the procedure described in Algorithm~\ref{alg:2}, by merging the mapped connecting points in the Authentication UCM with the mapped connecting points of the \emph{Authentication} stub in ThirdParty UCM. This process fuses the branches for both UCMs and flattens out the map into a single woven model, leading to a smooth transition of the workflow as illustrated in Figure~\ref{fig:4.12}. Since this woven model is still essentially a ThirdParty model, the mappings listed for the extended realization models has been updated to reflect the changes made from generating the woven model. Since ThirdParty is a child feature of OnlinePayment, the OnlinePayment model can still be extended via this woven model while retaining the incorporated Authentication workflow.
 
 Optional features of \emph{OnlinePayment} are \emph{RecurringPayment} and \emph{Refund}. Both of the features extend \emph{OnlinePayment}. For \emph{RecurringPayment}, the {\cls Anything} node represents the sequence of nodes on the path of \emph{OnlinePayment}---from \emph{Request payment authorization} to \emph{Close order}---and a loop to enable recurring payment is injected in between the two responsibilities. The \emph{Refund} model we defined here is restricted to the refund policy that allows customers to request for refund after they made the payment, but prior to receiving the goods. Refund after the delivery of product(s) requires a separate UCM and is outside the scope of this case study.
 
@@ -144,12 +155,12 @@ Typical implementation of deferred choice is by using an AND-fork to enable all 
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=1.25]{fig_4_12.png}
+	\includegraphics[scale=1.25]{fig_4_13.png}
 	\caption{Deferred choice pattern}
-	\label{fig:4.12}
+	\label{fig:4.13}
 \end{figure}
 
-Figure~\ref{fig:4.12} illustrates the OR-fork implementation for the deferred choice pattern of the second variation; the \emph{Trigger} is responsible for activating the proper branch, by setting \emph{opt}\textsubscript{1} to \emph{true} or \emph{false} (\emph{false} by default), leading to paths Option 1 if \emph{opt}\textsubscript{1} is true or Option 2 if \emph{opt}\textsubscript{1} is false. The partiality of \emph{Trigger} and \emph{opt}\textsubscript{1} is set to \emph{public partial} and intended to be completed through mappings. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reusing the deferred choice pattern is in the milestone pattern.
+Figure~\ref{fig:4.13} illustrates the OR-fork implementation for the deferred choice pattern of the second variation; the \emph{Trigger} is responsible for activating the proper branch, by setting \emph{opt}\textsubscript{1} to \emph{true} or \emph{false} (\emph{false} by default), leading to paths Option 1 if \emph{opt}\textsubscript{1} is true or Option 2 if \emph{opt}\textsubscript{1} is false. The partiality of \emph{Trigger} and \emph{opt}\textsubscript{1} is set to \emph{public partial} and intended to be completed through mappings. The pattern is realized as a feature in a concern and can be reused in other UCMs. One example of reusing the deferred choice pattern is in the milestone pattern.
 
 \subsection{Milestone}
 
@@ -157,20 +168,20 @@ The milestone pattern supports the conditional execution of a task only if a par
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=1.25]{fig_4_13.png}
+	\includegraphics[scale=1.25]{fig_4_14.png}
 	\caption{Milestone pattern (enrolment example)}
-	\label{fig:4.13}
-\end{figure}
-
-Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly differently. As shown in Figure~\ref{fig:4.13}, we take an example of student enrolment and apply the milestone pattern (deferred choice implementation) to model the enrolment process. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} (Option 1) can only be activated when the token on the other parallel path reaches \emph{Open enrolment}, but before reaching \emph{Close off}. All other instances would result in inaccessible path Option 1, leading to the only exit path available that is \emph{End of enrolment} (Option 2).
-
-In addition to mapping the required connecting points when a static stub is generated for reusing a concern, we mapped the responsibility \emph{Trigger} to both \emph{Open enrolment} and \emph{Close off}. Since the current responsibility mappings are specific to model extensions, responsibility mappings in model reuses shown in Figure~\ref{fig:4.13} serve as a concept whereby scenario variables of the mapped responsibilities can be executed when evaluating the UCMs through the traversal mechanism. For sophisticated models such as the milestone pattern where one parallel branch influences another parallel branch, a specialized traversal mechanism is required for this pattern as well as the deferred choice pattern.
-
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.7]{fig_4_14.pdf}
-	\caption{Structural view of deferred choice and milestone patterns (concept)}
 	\label{fig:4.14}
 \end{figure}
 
-To further illustrate the concept of scenario variables in CoUCM, we arrived at the idea of utilizing the multi-view modeling of design models (RAM)~\cite{kienzle2009aspect} to specify the variables. Figure~\ref{fig:4.14} shows the structural view excerpt of the patterns using class diagram. The idea is to map from the attribute {\cls |opt1} and the operation {\cls |setOpt1} of DeferredChoice, to the attribute {\cls enrol} and the operation {\cls setEnrol} of Milestone, respectively. This sets up the structure for scenario models so that the variable {\cls enrol} is initialized for use in the Milestone UCM, and the method {\cls setEnrol} can be used by \emph{Open enrolment} and \emph{Close off} in the Milestone UCM to toggle {\cls enrol}. Nonetheless, multi-view modeling---integrated with scenario models---can be a powerful tool to build scalable models that bridges the gap between structural and behavioral modeling.
+Whereas the deferred choice pattern is modeled as a reusable concern, the milestone pattern is implemented slightly differently. As shown in Figure~\ref{fig:4.14}, we take an example of student enrolment and apply the milestone pattern (deferred choice implementation) to model the enrolment process. New enrolments are being accepted when the enrolment period opens (at the point of reaching a milestone) until the enrolment period closes (at the point of deadline) for a given intake. Ideally, the route to \emph{Enrol student} (Option 1) can only be activated when the token on the other parallel path reaches \emph{Open enrolment}, but before reaching \emph{Close off}. All other instances would result in inaccessible path Option 1, leading to the only exit path available that is \emph{End of enrolment} (Option 2).
+
+In addition to mapping the required connecting points when a static stub is generated for reusing a concern, we mapped the responsibility \emph{Trigger} to both \emph{Open enrolment} and \emph{Close off}. Since the current responsibility mappings are specific to model extensions, responsibility mappings in model reuses shown in Figure~\ref{fig:4.14} serve as a concept whereby scenario variables of the mapped responsibilities can be executed when evaluating the UCMs through the traversal mechanism. For sophisticated models such as the milestone pattern where one parallel branch influences another parallel branch, a specialized traversal mechanism is required for this pattern as well as the deferred choice pattern.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=0.7]{fig_4_15.pdf}
+	\caption{Structural view of deferred choice and milestone patterns (concept)}
+	\label{fig:4.15}
+\end{figure}
+
+To further illustrate the concept of scenario variables in CoUCM, we arrived at the idea of utilizing the multi-view modeling of design models (RAM)~\cite{kienzle2009aspect} to specify the variables. Figure~\ref{fig:4.15} shows the structural view excerpt of the patterns using class diagram. The idea is to map from the attribute {\cls |opt1} and the operation {\cls |setOpt1} of DeferredChoice, to the attribute {\cls enrol} and the operation {\cls setEnrol} of Milestone, respectively. This sets up the structure for scenario models so that the variable {\cls enrol} is initialized for use in the Milestone UCM, and the method {\cls setEnrol} can be used by \emph{Open enrolment} and \emph{Close off} in the Milestone UCM to toggle {\cls enrol}. Nonetheless, multi-view modeling---integrated with scenario models---can be a powerful tool to build scalable models that bridges the gap between structural and behavioral modeling.
