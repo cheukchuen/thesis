@@ -1,11 +1,7 @@
 \documentclass[12pt,letterpaper]{report}
 \usepackage[margin=1in,includeheadfoot]{geometry}
-\usepackage[pdftex,
-pdfauthor={Cheuk Chuen Siow},
-pdftitle={Concern-Oriented Use Case Maps},
-pdfsubject={Computer Science},
-pdfkeywords={CORE, UCM},
-hidelinks,bookmarksnumbered]{hyperref}
+\usepackage[a-1b]{pdfx}
+\usepackage{hyperref}
 \usepackage[figure,table]{hypcap}
 \usepackage[nottoc]{tocbibind}
 \usepackage[titletoc]{appendix}
@@ -49,6 +45,20 @@ hidelinks,bookmarksnumbered]{hyperref}
 \newcommand*{\cls}{\fontfamily{cmss}\selectfont}
 
 \newcommand{\jkReplace}[2]{\textcolor{red}{JK replaced: }\textcolor{blue}{#1}{\textcolor{red}{\ by }\textcolor{green}{#2}}}
+
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={black},
+	citecolor={black},
+	urlcolor={black}
+}
+\pdfinfo{
+	/Author (Cheuk Chuen Siow)
+	/Title (Concern-Oriented Use Case Maps)
+	/Subject (Computer Science)
+	/Keywords (CORE, UCM)
+}
 
 %----------------
 % Title Page
